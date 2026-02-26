@@ -1,5 +1,5 @@
 /* BoredRoom CRM — Service Worker */
-const CACHE = 'boredroomCRM-v28';
+const CACHE = 'boredroomCRM-v29';
 const ASSETS = ['/', '/index.html', '/app.js', '/style.css',
   'https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap'];
 

@@ -2006,7 +2006,18 @@ function closeExportDropdown(wrapId) {
 
 // ── Modal helpers ──────────────────────────────────────────────────────────
 function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  document.body.style.overflow = '';
+  // Dynamic modals (.p20-modal) are appended to body → remove from DOM
+  // Static modals in HTML → just remove open class
+  if (el.classList.contains('p20-modal')) {
+    el.remove();
+  } else {
+    el.classList.remove('open');
+  }
+}
 
 // Close modal on overlay click
 document.addEventListener('click', (e) => {
@@ -11411,10 +11422,6 @@ async function deleteTimeEntry(id) {
   renderTimeEntries();
 }
 
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (el) el.remove();
-}
 
 // Time summary panel for deal/contact detail
 async function renderTimeSummaryPanel(dealId, contactId) {
