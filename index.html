@@ -3533,9 +3533,13 @@ async function hnSend() {
   hnShowTyping();
 
   try {
+    const token = sessionStorage.getItem('crm_token') || '';
     const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
       body: JSON.stringify({ message: msg, history: hnHistory.slice(-10) })
     });
 
