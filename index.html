@@ -3287,177 +3287,333 @@
 <!-- ════ HUBNOT CHAT WIDGET ════ -->
 <style>
 /* ── TURTLE COM — Hubnot Chat ─────────────────────────────────────────── */
+
+/* ── TOGGLE BUTTON — mini Turtle Communicator device ── */
 #hubnot-btn{
   position:fixed;bottom:28px;right:28px;z-index:9999;
-  width:auto;height:auto;border-radius:4px;
-  background:#091408;
-  border:2px solid #8FD129;
+  width:68px;height:82px;border-radius:10px;
+  background:linear-gradient(180deg,#3a7d44 0%,#2d6a35 60%,#256b2e 100%);
+  border:3px solid #1f5a28;
   cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:11px 18px;
-  box-shadow:0 0 18px rgba(143,209,41,.35),0 4px 20px rgba(0,0,0,.7);
-  transition:transform .2s,box-shadow .2s,background .15s;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0 0 8px 0;
+  box-shadow:
+    0 6px 0 #1a4a20,
+    0 8px 20px rgba(0,0,0,.6),
+    0 0 20px rgba(60,176,67,.2),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .15s,box-shadow .15s;
   font-family:'Bangers',cursive;
-  font-size:17px;letter-spacing:.14em;
-  color:#8FD129;
+  font-size:14px;letter-spacing:.14em;
+  color:#0d2410;
+  text-shadow:0 1px 0 rgba(255,255,255,.15);
+  line-height:1;
+}
+#hubnot-btn::before{
+  /* tiny screen suggestion */
+  content:'';position:absolute;
+  top:14px;left:50%;transform:translateX(-50%);
+  width:36px;height:22px;
+  background:#020a03;
+  border:2px solid #1a3d1f;
+  border-radius:3px;
+  box-shadow:inset 0 0 8px rgba(0,255,0,.15), 0 1px 0 rgba(255,255,255,.08);
+}
+#hubnot-btn::after{
+  /* antenna nub */
+  content:'';position:absolute;
+  top:-10px;left:50%;transform:translateX(-50%);
+  width:14px;height:12px;
+  background:linear-gradient(180deg,#3a7d44,#2d6a35);
+  border:2px solid #1f5a28;
+  border-radius:3px 3px 0 0;
+  border-bottom:none;
+  box-shadow:0 -1px 4px rgba(0,0,0,.3);
 }
 #hubnot-btn:hover{
-  transform:scale(1.04);
-  background:#0d1f0a;
-  box-shadow:0 0 28px rgba(143,209,41,.55),0 6px 28px rgba(0,0,0,.8);
+  transform:translateY(-2px);
+  box-shadow:
+    0 8px 0 #1a4a20,
+    0 12px 28px rgba(0,0,0,.7),
+    0 0 30px rgba(60,176,67,.35),
+    inset 0 1px 0 rgba(255,255,255,.15);
 }
-#hubnot-btn svg{width:20px;height:20px;fill:#8FD129;flex-shrink:0}
+#hubnot-btn:active{
+  transform:translateY(4px);
+  box-shadow:
+    0 2px 0 #1a4a20,
+    0 4px 10px rgba(0,0,0,.5),
+    0 0 12px rgba(60,176,67,.15),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
 #hubnot-badge{
-  position:absolute;top:-5px;right:-5px;
-  width:12px;height:12px;border-radius:50%;
-  background:#8FD129;border:2px solid #091408;
+  position:absolute;top:-6px;right:-6px;
+  width:14px;height:14px;border-radius:50%;
+  background:#ff4444;border:2px solid #2d6a35;
   display:none;
-  box-shadow:0 0 7px rgba(143,209,41,.9);
+  box-shadow:0 0 8px rgba(255,68,68,.8);
+  z-index:2;
 }
+
+/* ── THE DEVICE — main panel ── */
 #hubnot-panel{
-  position:fixed;bottom:96px;right:28px;z-index:9998;
-  width:410px;height:545px;
-  background:#091408;
-  border:2px solid #8FD129;
-  border-radius:10px;
+  position:fixed;bottom:124px;right:28px;z-index:9998;
+  width:390px;height:570px;
+  background:linear-gradient(180deg,#348a3e 0%,#2d6a35 30%,#256b2e 70%,#1f5a28 100%);
+  border:3px solid #1a4a20;
+  border-radius:14px;
   display:flex;flex-direction:column;
-  box-shadow:0 0 40px rgba(143,209,41,.18),0 24px 80px rgba(0,0,0,.75);
-  transform:scale(.95) translateY(8px);opacity:0;pointer-events:none;
-  transition:transform .22s cubic-bezier(.23,1,.32,1),opacity .18s;
-  overflow:hidden;
+  box-shadow:
+    0 8px 0 #143d18,
+    0 10px 0 #0d2e12,
+    0 14px 40px rgba(0,0,0,.7),
+    0 0 30px rgba(60,176,67,.12),
+    inset 0 1px 0 rgba(255,255,255,.1);
+  transform:scale(.92) translateY(12px);opacity:0;pointer-events:none;
+  transition:transform .25s cubic-bezier(.23,1,.32,1),opacity .2s;
+  overflow:visible;
 }
 #hubnot-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
-/* Device header bezel */
+
+/* Antenna */
+#hubnot-panel::before{
+  content:'';position:absolute;
+  top:-16px;left:50%;transform:translateX(-50%);
+  width:24px;height:18px;
+  background:linear-gradient(180deg,#3a8a44,#2d6a35);
+  border:3px solid #1a4a20;
+  border-bottom:none;
+  border-radius:5px 5px 0 0;
+  box-shadow:0 -2px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1);
+  z-index:1;
+}
+
+/* Corner screws */
+#hubnot-panel::after{
+  content:'';position:absolute;
+  top:10px;left:10px;right:10px;bottom:10px;
+  pointer-events:none;z-index:10;
+  background:
+    radial-gradient(circle at 8px 8px, #1a4a20 3px, #256b2e 3px, #256b2e 5px, transparent 5px),
+    radial-gradient(circle at calc(100% - 8px) 8px, #1a4a20 3px, #256b2e 3px, #256b2e 5px, transparent 5px),
+    radial-gradient(circle at 8px calc(100% - 8px), #1a4a20 3px, #256b2e 3px, #256b2e 5px, transparent 5px),
+    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), #1a4a20 3px, #256b2e 3px, #256b2e 5px, transparent 5px);
+}
+
+/* Plastic seam line */
+.hn-device-inner{
+  display:flex;flex-direction:column;flex:1;
+  margin:8px;
+  border:1px solid rgba(0,0,0,.2);
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+  position:relative;z-index:5;
+}
+
+/* ── Speaker grille / header ── */
 .hn-header{
-  padding:13px 16px;
-  background:linear-gradient(180deg,#0e2010 0%,#071209 100%);
-  border-bottom:2px solid #8FD129;
+  padding:12px 14px;
+  background:#1f4a25;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 3px,
+      rgba(0,0,0,.25) 3px, rgba(0,0,0,.25) 5px
+    );
+  border-bottom:3px solid #2a7a34;
   display:flex;align-items:center;gap:10px;flex-shrink:0;
+  position:relative;
 }
 .hn-avatar{
-  width:36px;height:36px;
-  border:2px solid #8FD129;border-radius:4px;
-  background:#091408;
+  width:34px;height:34px;
+  border:2px solid #3CB043;border-radius:4px;
+  background:#0d2410;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Bangers',cursive;font-size:19px;
-  color:#8FD129;flex-shrink:0;
-  box-shadow:0 0 10px rgba(143,209,41,.3);
+  font-family:'Bangers',cursive;font-size:17px;
+  color:#3CB043;flex-shrink:0;
+  box-shadow:0 0 8px rgba(60,176,67,.4), inset 0 0 6px rgba(60,176,67,.15);
   letter-spacing:.05em;
 }
 .hn-title{flex:1}
 .hn-title strong{
   display:block;font-family:'Bangers',cursive;
-  font-size:17px;letter-spacing:.12em;
-  color:#8FD129;line-height:1.1;
-  text-shadow:0 0 10px rgba(143,209,41,.45);
+  font-size:17px;letter-spacing:.14em;
+  color:#3CB043;line-height:1.1;
+  text-shadow:0 0 12px rgba(60,176,67,.5);
 }
 .hn-title span{
-  font-size:10px;color:rgba(143,209,41,.5);
+  font-size:10px;color:rgba(60,176,67,.6);
   font-family:'JetBrains Mono',monospace;
   letter-spacing:.08em;text-transform:uppercase;
 }
-.hn-title span::before{content:'● ';color:#8FD129;font-size:8px;}
-.hn-close{
-  background:none;border:1px solid rgba(143,209,41,.3);
-  cursor:pointer;color:rgba(143,209,41,.6);
-  font-size:15px;line-height:1;padding:7px 10px;border-radius:3px;
-  font-family:'JetBrains Mono',monospace;transition:all .15s;
+.hn-title span::before{
+  content:'';display:inline-block;
+  width:7px;height:7px;border-radius:50%;
+  background:#3CB043;margin-right:5px;
+  vertical-align:middle;
+  box-shadow:0 0 6px #3CB043, 0 0 12px rgba(60,176,67,.6);
+  animation:hn-status-pulse 2s ease-in-out infinite;
 }
-.hn-close:hover{color:#8FD129;border-color:#8FD129;background:rgba(143,209,41,.08);}
-/* CRT screen */
+@keyframes hn-status-pulse{
+  0%,100%{box-shadow:0 0 6px #3CB043, 0 0 12px rgba(60,176,67,.6);}
+  50%{box-shadow:0 0 3px #3CB043, 0 0 6px rgba(60,176,67,.3);}
+}
+.hn-close{
+  background:#1a3d1f;border:2px solid #2a7a34;
+  cursor:pointer;color:#3CB043;
+  font-size:14px;line-height:1;padding:6px 9px;border-radius:4px;
+  font-family:'JetBrains Mono',monospace;transition:all .15s;
+  box-shadow:0 2px 0 #143318, inset 0 1px 0 rgba(255,255,255,.05);
+}
+.hn-close:hover{background:#256b2e;border-color:#3CB043;}
+.hn-close:active{transform:translateY(2px);box-shadow:0 0 0 #143318;}
+
+/* ── CRT SCREEN ── */
 .hn-messages{
   flex:1;overflow-y:auto;padding:14px;
   display:flex;flex-direction:column;gap:10px;
-  scrollbar-width:thin;scrollbar-color:rgba(143,209,41,.3) transparent;
-  background:#050d04;
+  scrollbar-width:thin;scrollbar-color:rgba(60,176,67,.3) transparent;
+  background:#020a03;
   background-image:repeating-linear-gradient(
-    0deg,transparent,transparent 2px,
-    rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px
+    0deg,
+    transparent 0px, transparent 2px,
+    rgba(0,255,0,.03) 2px, rgba(0,255,0,.03) 4px
   );
+  box-shadow:
+    inset 0 0 0 6px #1a3d1f,
+    inset 0 0 0 10px #0d2410,
+    inset 0 0 30px rgba(0,255,0,.05),
+    inset 0 0 60px rgba(0,0,0,.5);
+  position:relative;
 }
-.hn-msg{display:flex;flex-direction:column;gap:3px;max-width:88%}
+/* Phosphor glow overlay */
+.hn-messages::after{
+  content:'';position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(0,255,0,.02) 0%, transparent 70%);
+  z-index:0;
+}
+.hn-msg{display:flex;flex-direction:column;gap:3px;max-width:88%;position:relative;z-index:1;}
 .hn-msg.user{align-self:flex-end;align-items:flex-end}
 .hn-msg.bot{align-self:flex-start}
-/* Transmission blocks */
+
+/* ── Message bubbles ── */
 .hn-bubble{
-  padding:9px 13px;border-radius:3px;
+  padding:9px 13px;border-radius:2px;
   font-size:13px;line-height:1.55;
   word-break:break-word;white-space:pre-wrap;
   font-family:'Inter',sans-serif;
 }
 .hn-msg.user .hn-bubble{
-  background:#8FD129;color:#050d04;
-  font-weight:600;border-bottom-right-radius:1px;
+  background:#3CB043;color:#0a1f0c;
+  font-weight:600;
+  box-shadow:0 1px 4px rgba(0,0,0,.4);
 }
 .hn-msg.bot .hn-bubble{
-  background:rgba(143,209,41,.06);color:#c6dac6;
-  border:1px solid rgba(143,209,41,.18);
-  border-bottom-left-radius:1px;
+  background:#0d1a0f;color:#a8d4a8;
+  border:1px solid rgba(60,176,67,.2);
+  box-shadow:0 1px 4px rgba(0,0,0,.3);
 }
-/* Typing dots */
+
+/* ── Typing dots ── */
 .hn-typing{display:flex;gap:5px;padding:10px 14px;align-items:center}
 .hn-typing span{
-  width:7px;height:7px;border-radius:50%;background:#8FD129;opacity:.55;
-  animation:hn-bounce .9s infinite;box-shadow:0 0 5px rgba(143,209,41,.5);
+  width:7px;height:7px;border-radius:50%;background:#3CB043;opacity:.6;
+  animation:hn-bounce .9s infinite;box-shadow:0 0 5px rgba(60,176,67,.5);
 }
 .hn-typing span:nth-child(2){animation-delay:.2s}
 .hn-typing span:nth-child(3){animation-delay:.4s}
 @keyframes hn-bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-/* Keypad row */
+
+/* ── KEYPAD / Input area ── */
 .hn-input-row{
   padding:12px 14px;
-  border-top:2px solid rgba(143,209,41,.25);
-  background:linear-gradient(0deg,#050d04 0%,#091408 100%);
-  display:flex;gap:8px;align-items:flex-end;flex-shrink:0;
+  border-top:4px solid #2a7a34;
+  background:#1f4a25;
+  background-image:repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 5px,
+    rgba(0,0,0,.06) 5px, rgba(0,0,0,.06) 6px
+  );
+  display:flex;gap:10px;align-items:flex-end;flex-shrink:0;
 }
 .hn-input{
-  flex:1;background:rgba(143,209,41,.04);
-  border:1px solid rgba(143,209,41,.22);border-radius:3px;
-  padding:10px 13px;color:#c6dac6;font-size:13px;
+  flex:1;
+  background:#050d04;
+  border:2px solid #1a3d1f;border-radius:4px;
+  padding:10px 13px;color:#a8d4a8;font-size:13px;
   resize:none;min-height:40px;max-height:100px;
   font-family:'JetBrains Mono',monospace;
   outline:none;transition:border-color .15s,box-shadow .15s;line-height:1.4;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.3);
 }
-.hn-input:focus{border-color:#8FD129;box-shadow:0 0 0 2px rgba(143,209,41,.14);}
-.hn-input::placeholder{color:rgba(143,209,41,.28);font-size:11px;}
-/* Big chunky TRANSMIT button */
+.hn-input:focus{
+  border-color:#3CB043;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.5), 0 0 0 2px rgba(60,176,67,.2), 0 0 10px rgba(60,176,67,.15);
+}
+.hn-input::placeholder{color:rgba(60,176,67,.3);font-size:11px;}
+
+/* ── BIG CHUNKY SEND BUTTON — real physical press ── */
 .hn-send{
-  width:46px;height:46px;border-radius:4px;flex-shrink:0;
-  background:#8FD129;border:none;cursor:pointer;
+  width:52px;height:52px;border-radius:8px;flex-shrink:0;
+  background:linear-gradient(180deg,#44c44e 0%,#3CB043 50%,#34a03b 100%);
+  border:2px solid #1a5c1a;
+  cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 0 #5a8f1a,0 0 14px rgba(143,209,41,.3);
+  box-shadow:
+    0 6px 0 #1a5c1a,
+    0 8px 12px rgba(0,0,0,.4),
+    0 0 16px rgba(60,176,67,.4),
+    inset 0 1px 0 rgba(255,255,255,.2);
   transition:background .1s,transform .1s,box-shadow .1s;
 }
-.hn-send:hover{background:#9fe535;box-shadow:0 4px 0 #5a8f1a,0 0 22px rgba(143,209,41,.5);}
-.hn-send:active{transform:translateY(3px);box-shadow:0 1px 0 #5a8f1a,0 0 8px rgba(143,209,41,.3);}
-.hn-send:disabled{opacity:.35;cursor:default;transform:none;box-shadow:none;}
-.hn-send svg{width:18px;height:18px;fill:#050d04}
+.hn-send:hover{
+  background:linear-gradient(180deg,#50d45a 0%,#44c44e 50%,#3CB043 100%);
+  box-shadow:
+    0 6px 0 #1a5c1a,
+    0 8px 14px rgba(0,0,0,.45),
+    0 0 24px rgba(60,176,67,.55),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+.hn-send:active{
+  transform:translateY(5px);
+  box-shadow:
+    0 1px 0 #1a5c1a,
+    0 2px 4px rgba(0,0,0,.3),
+    0 0 8px rgba(60,176,67,.2),
+    inset 0 2px 4px rgba(0,0,0,.2);
+}
+.hn-send:disabled{opacity:.35;cursor:default;transform:none;box-shadow:0 3px 0 #1a5c1a;}
+.hn-send svg{width:20px;height:20px;fill:#0a1f0c;filter:drop-shadow(0 1px 0 rgba(255,255,255,.15));}
 </style>
 
-<!-- Toggle button -->
+<!-- Toggle button — mini Turtle Communicator -->
 <button id="hubnot-btn" title="Chat with O'Brien" onclick="hnToggle()">
   <div id="hubnot-badge"></div>
-  <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.58 1 1 0 01-.25 1.02l-2.2 2.19z"/></svg>
   COMM
 </button>
 
-<!-- Chat panel -->
+<!-- Chat panel — THE TURTLE COMMUNICATOR DEVICE -->
 <div id="hubnot-panel">
-  <div class="hn-header">
-    <div class="hn-avatar">O'B</div>
-    <div class="hn-title">
-      <strong>O'BRIEN</strong>
-      <span>COMM LINK · ONLINE</span>
+  <div class="hn-device-inner">
+    <div class="hn-header">
+      <div class="hn-avatar">O'B</div>
+      <div class="hn-title">
+        <strong>O'BRIEN</strong>
+        <span>COMM LINK · ONLINE</span>
+      </div>
+      <button class="hn-close" onclick="hnToggle()">✕</button>
     </div>
-    <button class="hn-close" onclick="hnToggle()">✕</button>
-  </div>
-  <div class="hn-messages" id="hn-messages">
-  </div>
-  <div class="hn-input-row">
-    <textarea class="hn-input" id="hn-input" placeholder="Ask O'Brien anything…" rows="1" onkeydown="hnKey(event)" oninput="hnResize(this)"></textarea>
-    <button class="hn-send" id="hn-send" onclick="hnSend()">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
+    <div class="hn-messages" id="hn-messages">
+    </div>
+    <div class="hn-input-row">
+      <textarea class="hn-input" id="hn-input" placeholder="Ask O'Brien anything…" rows="1" onkeydown="hnKey(event)" oninput="hnResize(this)"></textarea>
+      <button class="hn-send" id="hn-send" onclick="hnSend()">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
