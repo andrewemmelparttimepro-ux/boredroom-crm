@@ -1,0 +1,3343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BoredRoom CRM</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#6366f1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BR CRM" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Sidebar ──────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" class="logo-mark" alt="BoredRoom" />
+      <div>
+        <div class="logo-text">BoredRoom</div>
+        <div class="logo-sub">CRM v1</div>
+      </div>
+      <!-- Notification Bell (Phase 19 In-App Notifications) -->
+      <div class="notif-bell-wrap" id="notif-bell-wrap">
+        <button class="notif-bell-btn" id="notif-bell-btn" onclick="toggleNotifCenter()" title="Notifications">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-badge" id="notif-badge" style="display:none">0</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Workspace</div>
+      <div class="nav-item" data-view="today" id="nav-today-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        Today
+        <span class="nav-badge" id="nav-today-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="dashboard">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" data-view="contacts">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Contacts
+      </div>
+      <div class="nav-item" data-view="companies">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        Companies
+      </div>
+      <div class="nav-item" data-view="pipeline">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Pipeline
+      </div>
+      <div class="nav-item" data-view="activities">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        Activities
+      </div>
+      <div class="nav-item" data-view="tasks">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Tasks
+        <span class="nav-badge" id="nav-tasks-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="reports">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Reports
+      </div>
+      <div class="nav-item" data-view="smartlists">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="17" r="3"/><path d="m21 20-1.5-1.5"/></svg>
+        Smart Lists
+      </div>
+      <div class="nav-item" data-view="invoices">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        Invoices
+        <span class="nav-badge" id="nav-invoices-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="catalog">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Catalog
+      </div>
+      <div class="nav-item" data-view="campaigns">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2z"/></svg>
+        Campaigns
+      </div>
+      <div class="nav-item" data-view="calendar">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Calendar
+      </div>
+      <div class="nav-item" data-view="documents">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13,2 13,9 20,9"/></svg>
+        Documents
+      </div>
+      <div class="nav-item" data-view="renewals">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Renewals
+        <span class="nav-badge" id="nav-renewals-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="notes">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        Notes
+      </div>
+      <div class="nav-item" data-view="time">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        Time
+      </div>
+      <div class="nav-item" data-view="meetings">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Meetings
+      </div>
+      <div class="nav-item" data-view="data-health">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Data Health
+      </div>
+      <div class="nav-item" data-view="assets">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Assets
+        <span class="nav-badge" id="nav-assets-expiring-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="inbox">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        Inbox
+        <span class="nav-badge" id="nav-inbox-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="sequences">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        Sequences
+      </div>
+      <div class="nav-item" data-view="metrics">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Metrics
+      </div>
+      <div class="nav-item" data-view="support">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Support
+        <span class="nav-badge" id="nav-support-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" data-view="customers" id="nav-customers-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Customers
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary btn-sm" style="width:100%;margin-bottom:8px;justify-content:center" onclick="p24OpenComposeEmail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Compose Email
+      </button>
+      <div class="nav-item" data-view="settings" style="margin:-4px -8px 8px;border-radius:6px">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Settings
+      </div>
+      <div style="margin-bottom:6px;font-weight:500;color:var(--text-dim)" id="sidebar-user-name">Andrew Walker</div>
+      <div>BoredRoom Platform &middot; Local</div>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ──────────────────────────────────── -->
+  <main class="main">
+
+    <!-- ════════════════════════════════════════════════════
+         TODAY QUEUE (Phase 23)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-today" class="view">
+      <div class="page-header">
+        <div class="page-title">Today</div>
+        <div class="header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="p23RefreshTodayQueue()">Refresh</button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div id="today-queue-body" style="padding:16px;display:flex;flex-direction:column;gap:20px">
+          <div style="color:var(--text-muted);font-size:13px;text-align:center;padding:32px">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+<!-- ════════════════════════════════════════════════════
+         DASHBOARD
+    ════════════════════════════════════════════════════ -->
+    <div id="view-dashboard" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Dashboard</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-ghost btn-icon" onclick="openDashboardCustomize()" title="Customize dashboard widgets">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </button>
+          <button class="btn btn-secondary" id="btn-import">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,17 12,21 16,17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88,18.09A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.29"/></svg>
+            Import
+          </button>
+          <div class="dropdown-wrap" id="export-dropdown-wrap">
+            <button class="btn btn-secondary" id="btn-export" onclick="toggleExportDropdown('export-dropdown-wrap')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,7 12,3 16,7"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M20.88,18.09A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.29"/></svg>
+              Export
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:10px;height:10px"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="dropdown-menu" id="export-dropdown-wrap-menu">
+              <div class="dropdown-item" onclick="exportContactsCSV();closeExportDropdown('export-dropdown-wrap')">Export Contacts CSV</div>
+              <div class="dropdown-item" onclick="exportCompaniesCSV();closeExportDropdown('export-dropdown-wrap')">Export Companies CSV</div>
+              <div class="dropdown-item" onclick="exportDealsCSV();closeExportDropdown('export-dropdown-wrap')">Export Deals CSV</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="exportAllJSON();closeExportDropdown('export-dropdown-wrap')">Export All (JSON)</div>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="dash-add-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Contact
+          </button>
+          <button class="btn btn-secondary" id="dash-log-activity">Log Activity</button>
+          <button class="btn btn-secondary" id="dash-add-deal">Add Deal</button>
+        </div>
+      </div>
+      <div class="page-content">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Contacts</div>
+            <div class="stat-value" id="stat-contacts">0</div>
+            <div class="stat-delta">All time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Open Deals</div>
+            <div class="stat-value" id="stat-open-deals">0</div>
+            <div class="stat-delta">Active pipeline</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pipeline Value</div>
+            <div class="stat-value" id="stat-pipeline-value">$0</div>
+            <div class="stat-delta">Exc. lost</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Activities This Week</div>
+            <div class="stat-value" id="stat-activities">0</div>
+            <div class="stat-delta">Last 7 days</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Weighted Pipeline</div>
+            <div class="stat-value" id="stat-weighted-pipeline">$0</div>
+            <div class="stat-delta">Probability-adjusted</div>
+          </div>
+          <div class="stat-card" id="stat-card-overdue">
+            <div class="stat-label">Overdue Tasks</div>
+            <div class="stat-value" id="stat-overdue-tasks">0</div>
+            <div class="stat-delta up" id="stat-overdue-delta">All caught up!</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">MRR</div>
+            <div class="stat-value" id="stat-mrr">$0</div>
+            <div class="stat-delta">Monthly recurring</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">ARR</div>
+            <div class="stat-value" id="stat-arr">$0</div>
+            <div class="stat-delta">Annual recurring</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Outstanding Invoices</div>
+            <div class="stat-value" id="stat-invoices-outstanding">$0</div>
+            <div class="stat-delta" id="stat-invoices-delta">All paid up</div>
+          </div>
+        </div>
+
+        <!-- Insights bar -->
+        <div id="goal-progress-bar" style="display:none;margin-bottom:12px"></div>
+        <div id="insights-bar" style="display:none;margin-bottom:16px"></div>
+
+        <!-- Main grid -->
+        <div class="dash-grid">
+          <div class="dash-grid-left">
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Activity Feed</div>
+              </div>
+              <div id="dashboard-activity-feed" class="activity-timeline"></div>
+            </div>
+          </div>
+          <div class="dash-grid-right">
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Pipeline by Stage</div>
+              </div>
+              <div id="pipeline-summary" class="pipeline-summary"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title">Recent Contacts</div>
+              </div>
+              <div id="recent-contacts-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CONTACTS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-contacts" class="view">
+      <div class="page-header">
+        <div class="page-title">Contacts</div>
+        <span class="page-subtitle" id="contacts-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-add-contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Contact
+          </button>
+        </div>
+      </div>
+
+      <div id="contacts-saved-searches" class="saved-searches-bar" style="display:none"></div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="contact-search" placeholder="Search contacts...">
+        </div>
+        <select class="filter-select" id="contact-stage-filter">
+          <option value="">All Stages</option>
+          <option>Lead</option>
+          <option>Qualified</option>
+          <option>Prospect</option>
+          <option>Customer</option>
+          <option>Churned</option>
+        </select>
+        <select class="filter-select" id="contacts-tag-filter">
+          <option value="">All Tags</option>
+        </select>
+        <select class="filter-select" id="contacts-health-filter">
+          <option value="">All Health</option>
+          <option value="healthy">Healthy (70+)</option>
+          <option value="at-risk">At Risk (40-69)</option>
+          <option value="critical">Critical (&lt;40)</option>
+          <option value="scored">Scored Only</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="openSaveSearchModal('contacts')" title="Save current filters">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+          Save Filter
+        </button>
+      </div>
+
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table id="contacts-table">
+          <thead>
+            <tr>
+              <th style="width:36px;padding:8px 10px"><input type="checkbox" id="contact-select-all" title="Select all" /></th>
+              <th data-sort="name">Name</th>
+              <th data-sort="company">Company</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th data-sort="stage">Stage</th>
+              <th data-sort="lastActivity">Last Activity</th>
+              <th>Tags</th>
+              <th>Owner</th>
+              <th>Lead Source</th>
+              <th data-sort="health">Health</th>
+            </tr>
+          </thead>
+          <tbody id="contacts-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         COMPANIES
+    ════════════════════════════════════════════════════ -->
+    <div id="view-companies" class="view">
+      <div class="page-header">
+        <div class="page-title">Companies</div>
+        <span class="page-subtitle" id="companies-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-add-company">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Company
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="company-search" placeholder="Search companies...">
+        </div>
+        <div class="ml-auto" style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" id="btn-import-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="8,17 12,21 16,17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88,18.09A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.29"/></svg>
+            Import
+          </button>
+          <div class="dropdown-wrap" id="export-dropdown-wrap-2">
+            <button class="btn btn-secondary btn-sm" onclick="toggleExportDropdown('export-dropdown-wrap-2')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="8,7 12,3 16,7"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M20.88,18.09A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.29"/></svg>
+              Export
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:10px;height:10px"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="dropdown-menu" id="export-dropdown-wrap-2-menu">
+              <div class="dropdown-item" onclick="exportContactsCSV();closeExportDropdown('export-dropdown-wrap-2')">Export Contacts CSV</div>
+              <div class="dropdown-item" onclick="exportCompaniesCSV();closeExportDropdown('export-dropdown-wrap-2')">Export Companies CSV</div>
+              <div class="dropdown-item" onclick="exportDealsCSV();closeExportDropdown('export-dropdown-wrap-2')">Export Deals CSV</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="exportAllJSON();closeExportDropdown('export-dropdown-wrap-2')">Export All (JSON)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Industry</th>
+              <th>Website</th>
+              <th>Phone</th>
+              <th style="text-align:center">Contacts</th>
+              <th>Deal Value</th>
+            </tr>
+          </thead>
+          <tbody id="companies-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         PIPELINE
+    ════════════════════════════════════════════════════ -->
+    <div id="view-pipeline" class="view">
+      <div class="page-header">
+        <div class="page-title">Pipeline</div>
+        <div class="header-actions">
+          <div class="view-toggle-group">
+            <button class="btn btn-secondary btn-sm view-toggle-btn active" id="btn-pipeline-kanban" onclick="setPipelineView('kanban')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="3" width="5" height="18" rx="1"/><rect x="17" y="3" width="5" height="18" rx="1"/></svg>
+              Kanban
+            </button>
+            <button class="btn btn-secondary btn-sm view-toggle-btn" id="btn-pipeline-timeline" onclick="setPipelineView('timeline')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              Timeline
+            </button>
+          </div>
+          <button class="btn btn-secondary btn-icon" id="btn-pipeline-settings" title="Pipeline Settings">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a1 1 0 0 0-1.41 0l-.71.7a1 1 0 0 1-1.41 0l-.7-.7a1 1 0 0 0-1.41 0l-.01.01A1 1 0 0 0 13 6.34V7a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-.66a1 1 0 0 0-.34-.75l-.01-.01a1 1 0 0 0-1.41 0l-.7.7a1 1 0 0 1-1.41 0l-.71-.7a1 1 0 0 0-1.41 0A10 10 0 1 0 19.07 4.93z"/></svg>
+          </button>
+          <button class="btn btn-primary" id="btn-add-deal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Deal
+          </button>
+        </div>
+      </div>
+      <div id="pipeline-saved-searches" class="saved-searches-bar" style="display:none;padding:8px 16px 0"></div>
+      <div class="page-content" style="overflow:hidden;padding:16px">
+        <div id="pipeline-board" style="display:flex;gap:12px;flex:1;overflow-x:auto;padding-bottom:8px"></div>
+        <div id="pipeline-gantt" style="display:none;flex:1;overflow:auto"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         ACTIVITIES
+    ════════════════════════════════════════════════════ -->
+    <div id="view-activities" class="view">
+      <div class="page-header">
+        <div class="page-title">Activities</div>
+        <span class="page-subtitle" id="activities-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-log-activity">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Log Activity
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <select class="filter-select" id="act-type-filter">
+          <option value="">All Types</option>
+          <option>Note</option>
+          <option>Call</option>
+          <option>Email</option>
+          <option>Meeting</option>
+          <option>Task</option>
+        </select>
+        <select class="filter-select" id="act-date-filter">
+          <option value="">All Time</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+
+      <div style="flex:1;overflow-y:auto">
+        <div id="activities-feed" class="activity-timeline"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CONTACT DETAIL
+    ════════════════════════════════════════════════════ -->
+    <div id="view-contact-detail" class="view">
+      <!-- Populated dynamically by renderContactDetail() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         SMART LISTS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-smartlists" class="view">
+      <div class="page-header">
+        <div class="page-title">Smart Lists</div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openSmartListModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New List
+          </button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div id="smartlists-container"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         INVOICES
+    ════════════════════════════════════════════════════ -->
+    <div id="view-invoices" class="view">
+      <div class="page-header">
+        <div class="page-title">Invoices</div>
+        <span class="page-subtitle" id="invoices-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-create-invoice">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Invoice
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="invoice-search" placeholder="Search invoices...">
+        </div>
+        <select class="filter-select" id="invoice-status-filter">
+          <option value="">All Status</option>
+          <option>Draft</option>
+          <option>Sent</option>
+          <option>Paid</option>
+          <option>Overdue</option>
+        </select>
+      </div>
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table id="invoices-table">
+          <thead>
+            <tr>
+              <th>Invoice #</th>
+              <th>Client</th>
+              <th>Company</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Due Date</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="invoices-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         INVOICE DETAIL / EDITOR
+    ════════════════════════════════════════════════════ -->
+    <div id="view-invoice-detail" class="view">
+      <!-- Populated dynamically by renderInvoiceDetail() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         SETTINGS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-settings" class="view">
+      <div class="page-header">
+        <div class="page-title">Settings</div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div class="settings-grid">
+
+          <!-- Profile -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Profile</div></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" class="form-input" id="settings-user-name" placeholder="Andrew Walker" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-input" id="settings-company-name" placeholder="BoredRoom" />
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="saveProfileSettings()">Save Profile</button>
+            </div>
+          </div>
+
+          <!-- Data Management -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Data Management</div></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div class="settings-action-row">
+                <div>
+                  <div class="settings-action-label">Export Full Backup</div>
+                  <div class="settings-action-sub">Download all CRM data as JSON</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="exportAllJSON()">Export</button>
+              </div>
+              <div class="settings-action-row">
+                <div>
+                  <div class="settings-action-label">Import Data</div>
+                  <div class="settings-action-sub">Restore from JSON or import contacts CSV</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="importData()">Import</button>
+              </div>
+              <div class="settings-action-row">
+                <div>
+                  <div class="settings-action-label">Reset to Sample Data</div>
+                  <div class="settings-action-sub">Restore the default demo dataset</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="resetToSampleData()">Reset</button>
+              </div>
+              <div class="settings-action-row" style="border-top:1px solid var(--border);padding-top:10px;margin-top:2px">
+                <div>
+                  <div class="settings-action-label" style="color:var(--red)">Clear All Data</div>
+                  <div class="settings-action-sub">Permanently delete everything</div>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="clearAllData()">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pipeline Stages -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Pipeline Stages</div></div>
+            <div style="padding:16px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Customize your sales pipeline stages, colors, and win probabilities.</p>
+              <button class="btn btn-secondary btn-sm" onclick="openPipelineSettings()">Edit Pipeline Stages</button>
+            </div>
+          </div>
+
+          <!-- Email Templates -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Email Templates</div></div>
+            <div style="padding:16px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px" id="settings-template-count">No templates saved yet.</p>
+              <button class="btn btn-secondary btn-sm" onclick="openEmailTemplatesModal()">Manage Templates</button>
+            </div>
+          </div>
+
+          <!-- Revenue Goals -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Revenue Goals</div></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div class="form-group">
+                <label class="form-label">Monthly Revenue Target ($)</label>
+                <input type="number" class="form-input" id="goal-monthly" placeholder="50000" min="0" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Quarterly Revenue Target ($)</label>
+                <input type="number" class="form-input" id="goal-quarterly" placeholder="150000" min="0" />
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="saveGoals()">Save Goals</button>
+            </div>
+          </div>
+
+          <!-- Owner Quotas (Phase 16) -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Owner Quotas</div></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Set monthly revenue quotas per owner. Owner initials must match deal / contact owner field.</p>
+              <div id="owner-quotas-list" style="display:flex;flex-direction:column;gap:8px"></div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="text" class="form-input" id="new-quota-owner" placeholder="Owner (e.g. AW)" maxlength="6" style="width:90px" />
+                <input type="number" class="form-input" id="new-quota-amount" placeholder="Monthly quota ($)" min="0" style="flex:1" />
+                <button class="btn btn-secondary btn-sm" onclick="addOwnerQuota()">Add</button>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="saveOwnerQuotas()">Save Quotas</button>
+            </div>
+          </div>
+
+          <!-- Invoice Settings -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Invoice Settings</div></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div class="form-group">
+                <label class="form-label">Invoice Prefix</label>
+                <input type="text" class="form-input" id="inv-settings-prefix" placeholder="INV-" maxlength="10" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Starting Number</label>
+                <input type="number" class="form-input" id="inv-settings-start" placeholder="1001" min="1" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your Company Name</label>
+                <input type="text" class="form-input" id="inv-settings-company" placeholder="BoredRoom LLC" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Address (on invoice)</label>
+                <input type="text" class="form-input" id="inv-settings-address" placeholder="123 Main St, Chicago IL" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email (on invoice)</label>
+                <input type="email" class="form-input" id="inv-settings-email" placeholder="billing@yourcompany.com" />
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="saveInvoiceSettings()">Save Invoice Settings</button>
+            </div>
+          </div>
+
+          <!-- Custom Fields -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Custom Contact Fields</div></div>
+            <div style="padding:16px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Add extra fields that appear on every contact record.</p>
+              <div id="custom-fields-list" style="margin-bottom:10px"></div>
+              <div style="display:flex;gap:8px">
+                <input type="text" class="form-input" id="new-custom-field-name" placeholder="Field name..." style="flex:1;font-size:12px" />
+                <select class="form-select" id="new-custom-field-type" style="width:100px;font-size:12px">
+                  <option value="text">Text</option>
+                  <option value="number">Number</option>
+                  <option value="date">Date</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" onclick="addCustomField()">Add</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sales Playbooks -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header"><div class="panel-title">Sales Playbooks</div></div>
+            <div style="padding:16px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Define per-stage checklists that appear on every deal. Keep reps on track with the right steps for each stage.</p>
+              <div id="playbooks-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px"></div>
+              <button class="btn btn-secondary btn-sm" onclick="addPlaybookStage()">+ Add Stage Checklist</button>
+              <button class="btn btn-primary btn-sm" onclick="savePlaybooks()" style="margin-left:8px">Save Playbooks</button>
+            </div>
+          </div>
+
+          <!-- Team Members (Admin only — shown/hidden via JS) -->
+          <div class="panel settings-card" id="settings-users-panel" style="display:none;grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">Team Members</div>
+              <button class="btn btn-primary btn-sm" onclick="openInviteUserModal()">Invite Member</button>
+            </div>
+            <div style="padding:12px">
+              <div id="users-table-container">
+                <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading team members...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">Push Notifications</div></div>
+            <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Enable browser push notifications for overdue tasks, upcoming renewals, and past-due deals.</p>
+              <div id="notification-status" style="font-size:12px;color:var(--text-muted)">Status: checking...</div>
+              <button class="btn btn-primary btn-sm" id="btn-enable-notifications" onclick="enablePushNotifications()">Enable Notifications</button>
+              <button class="btn btn-ghost btn-sm" id="btn-test-notification" onclick="sendTestNotification()" style="display:none">Send Test Notification</button>
+            </div>
+          </div>
+
+          <!-- Export Center -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header"><div class="panel-title">Export Center</div></div>
+            <div style="padding:16px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Download your CRM data in CSV or JSON format. All exports are real-time snapshots.</p>
+              <div class="export-center-grid">
+                <div class="export-card">
+                  <div class="export-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  </div>
+                  <div class="export-card-info">
+                    <div class="export-card-title">Contacts</div>
+                    <div class="export-card-sub">All contact records</div>
+                  </div>
+                  <div class="export-card-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('contacts','csv')">CSV</button>
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('contacts','json')">JSON</button>
+                  </div>
+                </div>
+                <div class="export-card">
+                  <div class="export-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+                  </div>
+                  <div class="export-card-info">
+                    <div class="export-card-title">Companies</div>
+                    <div class="export-card-sub">All company records</div>
+                  </div>
+                  <div class="export-card-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('companies','csv')">CSV</button>
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('companies','json')">JSON</button>
+                  </div>
+                </div>
+                <div class="export-card">
+                  <div class="export-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  </div>
+                  <div class="export-card-info">
+                    <div class="export-card-title">Deals</div>
+                    <div class="export-card-sub">All pipeline deals</div>
+                  </div>
+                  <div class="export-card-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('deals','csv')">CSV</button>
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('deals','json')">JSON</button>
+                  </div>
+                </div>
+                <div class="export-card">
+                  <div class="export-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+                  </div>
+                  <div class="export-card-info">
+                    <div class="export-card-title">Invoices</div>
+                    <div class="export-card-sub">All invoice records</div>
+                  </div>
+                  <div class="export-card-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('invoices','csv')">CSV</button>
+                    <button class="btn btn-secondary btn-sm" onclick="downloadExport('invoices','json')">JSON</button>
+                  </div>
+                </div>
+                <div class="export-card export-card-full">
+                  <div class="export-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </div>
+                  <div class="export-card-info">
+                    <div class="export-card-title">Full Backup</div>
+                    <div class="export-card-sub">All entities in one JSON file — contacts, companies, deals, activities, invoices, renewals, and settings</div>
+                  </div>
+                  <div class="export-card-actions">
+                    <button class="btn btn-primary btn-sm" onclick="downloadExport('full','json')">Download Backup</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- About -->
+          <div class="panel settings-card">
+            <div class="panel-header"><div class="panel-title">About</div></div>
+            <div style="padding:16px;font-size:12px;color:var(--text-muted);display:flex;flex-direction:column;gap:6px">
+              <div><span style="color:var(--text-dim);font-weight:500">BoredRoom CRM</span> — Phase 17</div>
+              <div>Built with vanilla JS + Node.js/Express + SQLite</div>
+              <div id="settings-data-size" style="color:var(--text-muted)"></div>
+            </div>
+          </div>
+
+          <!-- Webhooks / Integration Hub (Phase 19) -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">Webhooks / Integration Hub</div>
+              <button class="btn btn-primary btn-sm" onclick="openWebhookModal()">Add Webhook</button>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Send real-time HTTP POST payloads to external URLs when CRM events occur.</p>
+              <div id="webhooks-list">
+                <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading webhooks...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom Fields Builder (Phase 19) -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">Custom Fields Builder</div>
+              <button class="btn btn-primary btn-sm" onclick="openCustomFieldDefModal()">Add Field</button>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Define custom fields for Contact, Company, and Deal forms. Fields appear at the bottom of create/edit modals and on detail pages.</p>
+              <div style="display:flex;gap:8px;margin-bottom:12px">
+                <button class="btn btn-sm" id="cfd-filter-all" onclick="setCFDFilter('all')" style="background:var(--accent);color:#fff;border:none;padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer">All</button>
+                <button class="btn btn-sm" id="cfd-filter-contact" onclick="setCFDFilter('contact')" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer">Contact</button>
+                <button class="btn btn-sm" id="cfd-filter-company" onclick="setCFDFilter('company')" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer">Company</button>
+                <button class="btn btn-sm" id="cfd-filter-deal" onclick="setCFDFilter('deal')" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer">Deal</button>
+              </div>
+              <div id="custom-field-defs-list">
+                <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading custom fields...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Goals per Rep (Phase 19 — admin/manager only) -->
+          <div class="panel settings-card" style="grid-column:span 2" id="settings-goals-panel">
+            <div class="panel-header">
+              <div class="panel-title">Goals per Rep</div>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Set monthly and quarterly revenue goals per rep. Progress bars appear on the dashboard and in the Goals leaderboard in Reports.</p>
+              <div id="goals-per-rep-container">
+                <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading users...</div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="saveGoalsPerRep()" style="margin-top:12px">Save All Goals</button>
+            </div>
+          </div>
+
+          <!-- Product Bundles (Phase 20) -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">Product Bundles</div>
+              <button class="btn btn-primary btn-sm" onclick="openBundleModal()">Add Bundle</button>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Group products into reusable bundles. Add a bundle to an invoice or proposal with one click.</p>
+              <div id="bundles-list">
+                <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading bundles...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checklist Templates (Phase 20) -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">Onboarding Checklist Templates</div>
+              <button class="btn btn-primary btn-sm" onclick="openChecklistTemplateModal()">Add Template</button>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Create reusable onboarding checklists. Apply any template to a deal to track progress step by step.</p>
+              <div id="checklist-templates-list">
+                <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading templates...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLA Limits (Phase 20) -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">SLA Stage Limits</div>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Set the maximum number of days a deal should spend in each pipeline stage. Deals exceeding this limit will show a warning badge.</p>
+              <div id="sla-limits-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px"></div>
+              <button class="btn btn-primary btn-sm" onclick="saveSLALimits()">Save SLA Limits</button>
+            </div>
+          </div>
+
+          <!-- Activity Log (Phase 16) -->
+          <div class="panel settings-card" style="grid-column:span 2">
+            <div class="panel-header">
+              <div class="panel-title">Activity Log</div>
+              <span style="font-size:11px;color:var(--text-muted)">Audit trail of all data changes</span>
+            </div>
+            <div style="padding:12px">
+              <div style="display:flex;gap:8px;margin-bottom:12px">
+                <select class="form-select" id="audit-type-filter" onchange="renderAuditLog()" style="width:140px;font-size:12px">
+                  <option value="">All Types</option>
+                  <option value="contact">Contacts</option>
+                  <option value="deal">Deals</option>
+                  <option value="company">Companies</option>
+                  <option value="renewal">Renewals</option>
+                  <option value="call_log">Call Logs</option>
+                </select>
+                <select class="form-select" id="audit-action-filter" onchange="renderAuditLog()" style="width:130px;font-size:12px">
+                  <option value="">All Actions</option>
+                  <option value="created">Created</option>
+                  <option value="updated">Updated</option>
+                  <option value="deleted">Deleted</option>
+                </select>
+                <button class="btn btn-ghost btn-sm" onclick="loadAuditLog()">Refresh</button>
+              </div>
+              <div id="audit-log-container" style="max-height:400px;overflow-y:auto">
+                <div style="color:var(--text-muted);font-size:12px;padding:16px;text-align:center">Loading activity log...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pipeline Automation Rules (Phase 23) -->
+          <div class="panel settings-card" style="grid-column:span 2" id="p23-automation-panel">
+            <div class="panel-header">
+              <div class="panel-title">Pipeline Automation Rules</div>
+              <button class="btn btn-primary btn-sm" onclick="p23OpenAutomationModal(null)">+ New Rule</button>
+            </div>
+            <div id="p23-automation-body" style="padding:12px">
+              <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Lead Scoring Rules (Phase 23) -->
+          <div class="panel settings-card" style="grid-column:span 2" id="p23-scoring-panel">
+            <div class="panel-header">
+              <div class="panel-title">Lead Scoring Rules</div>
+              <button class="btn btn-primary btn-sm" onclick="p23OpenScoringModal(null)">+ Add Rule</button>
+            </div>
+            <div style="padding:12px">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Define scoring rules applied to contacts. Points are clamped 0-100. Higher scores indicate stronger leads.</p>
+              <div id="p23-scoring-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+                <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px">Loading...</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="p23RecalculateAllScores()">Recalculate All Contact Scores</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CLIENT PORTAL
+    ════════════════════════════════════════════════════ -->
+    <div id="view-portal" class="view">
+      <!-- Populated dynamically by renderPortal() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         DEAL DETAIL
+    ════════════════════════════════════════════════════ -->
+    <div id="view-deal-detail" class="view">
+      <!-- Populated dynamically by renderDealDetail() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         COMPANY DETAIL
+    ════════════════════════════════════════════════════ -->
+    <div id="view-company-detail" class="view">
+      <!-- Populated dynamically by renderCompanyDetail() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         TIME TRACKING
+    ════════════════════════════════════════════════════ -->
+    <div id="view-time" class="view">
+      <div class="page-header">
+        <div class="page-title">Time Tracking</div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openTimeEntryModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Log Time
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <select class="filter-select" id="time-filter-user" onchange="renderTimeEntries()">
+          <option value="">All Users</option>
+        </select>
+        <select class="filter-select" id="time-filter-deal" onchange="renderTimeEntries()">
+          <option value="">All Deals</option>
+        </select>
+        <select class="filter-select" id="time-filter-billable" onchange="renderTimeEntries()">
+          <option value="">All Entries</option>
+          <option value="true">Billable Only</option>
+          <option value="false">Non-billable Only</option>
+        </select>
+        <div id="time-totals-bar" style="margin-left:auto;display:flex;gap:16px;align-items:center;font-size:12px;color:var(--text-muted)"></div>
+      </div>
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table id="time-entries-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Deal</th>
+              <th>Contact</th>
+              <th>User</th>
+              <th>Hours</th>
+              <th>Rate</th>
+              <th>Amount</th>
+              <th>Billable</th>
+              <th>Invoiced</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="time-entries-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         MEETINGS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-meetings" class="view">
+      <!-- Populated dynamically by renderMeetings() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         DATA HEALTH
+    ════════════════════════════════════════════════════ -->
+    <div id="view-data-health" class="view">
+      <div class="page-header">
+        <div class="page-title">Data Health</div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" onclick="loadDataHealth()">Refresh</button>
+        </div>
+      </div>
+      <div id="data-health-content" style="padding:16px">
+        <div class="empty-state"><div class="empty-state-title">Loading data health report...</div></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         INBOX
+    ════════════════════════════════════════════════════ -->
+    <div id="view-inbox" class="view">
+      <div class="page-header">
+        <div class="page-title">Inbox</div>
+        <div class="header-actions">
+          <input type="text" id="inbox-search" placeholder="Search messages..." style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:13px;width:200px" oninput="p22InboxSearch(this.value)" />
+          <button class="btn btn-secondary" onclick="p22SyncInbox()">Sync</button>
+        </div>
+      </div>
+      <div id="inbox-content" style="display:flex;gap:0;height:calc(100vh - 110px);overflow:hidden">
+        <div id="inbox-list" style="width:360px;min-width:280px;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0">
+          <div class="empty-state"><div class="empty-state-title">Loading inbox...</div></div>
+        </div>
+        <div id="inbox-detail" style="flex:1;overflow-y:auto;padding:0">
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:13px">Select a message to read</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CATALOG
+    ════════════════════════════════════════════════════ -->
+    <div id="view-catalog" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Product &amp; Service Catalog</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openCatalogModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Item
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="catalog-search" placeholder="Search catalog..." oninput="renderCatalog()">
+        </div>
+        <select class="filter-select" id="catalog-category-filter" onchange="renderCatalog()">
+          <option value="">All Categories</option>
+          <option>Software</option>
+          <option>Hardware</option>
+          <option>Service</option>
+          <option>Consulting</option>
+          <option>Support</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div id="catalog-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:4px 0"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         REPORTS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-reports" class="view">
+      <div class="page-header">
+        <div class="page-title">Reports</div>
+        <div class="header-actions">
+          <button class="btn btn-secondary btn-sm" onclick="exportReportsCSV()">Export CSV</button>
+          <button class="btn btn-secondary btn-sm" onclick="p23ExportReportsPDF()">Export PDF</button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div class="reports-grid">
+          <!-- Win Rate -->
+          <div class="panel report-card">
+            <div class="panel-header"><div class="panel-title">Win Rate</div></div>
+            <div class="report-card-body">
+              <canvas id="chart-winrate" width="200" height="200"></canvas>
+              <div id="chart-winrate-legend" class="chart-legend"></div>
+            </div>
+          </div>
+          <!-- Pipeline Value by Stage -->
+          <div class="panel report-card report-card-wide">
+            <div class="panel-header"><div class="panel-title">Pipeline Value by Stage</div></div>
+            <div class="report-card-body">
+              <canvas id="chart-pipeline" width="500" height="200"></canvas>
+            </div>
+          </div>
+          <!-- Activity Breakdown -->
+          <div class="panel report-card">
+            <div class="panel-header"><div class="panel-title">Activity Breakdown</div></div>
+            <div class="report-card-body">
+              <canvas id="chart-activities" width="200" height="200"></canvas>
+              <div id="chart-activities-legend" class="chart-legend"></div>
+            </div>
+          </div>
+          <!-- Monthly Deals Closed -->
+          <div class="panel report-card report-card-wide">
+            <div class="panel-header"><div class="panel-title">Revenue Closed (Last 6 Months)</div></div>
+            <div class="report-card-body">
+              <canvas id="chart-monthly" width="500" height="200"></canvas>
+            </div>
+          </div>
+          <!-- Deal Velocity Table -->
+          <div class="panel report-card report-card-full">
+            <div class="panel-header"><div class="panel-title">Deal Velocity — Avg Days per Stage</div></div>
+            <div id="report-velocity" style="padding:16px"></div>
+          </div>
+          <!-- Top Contacts -->
+          <div class="panel report-card report-card-full">
+            <div class="panel-header"><div class="panel-title">Top Contacts by Deal Value</div></div>
+            <div id="report-top-contacts" style="padding:16px"></div>
+          </div>
+          <!-- Portal Engagement (Phase 23) -->
+          <div class="panel report-card report-card-full" id="report-portal-engagement">
+            <div class="panel-header"><div class="panel-title">Portal Engagement — Top Viewed Deals</div></div>
+            <div id="report-portal-engagement-body" style="padding:16px">
+              <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:16px">Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         TASKS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-tasks" class="view">
+      <div class="page-header">
+        <div class="page-title">Tasks</div>
+        <span class="page-subtitle" id="tasks-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="btn-add-task">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Task
+          </button>
+        </div>
+      </div>
+      <div style="flex:1;overflow-y:auto">
+        <div id="tasks-list" style="padding:16px;display:flex;flex-direction:column;gap:20px"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CAMPAIGNS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-campaigns" class="view">
+      <div class="page-header">
+        <div class="page-title">Campaigns</div>
+        <span class="page-subtitle" id="campaigns-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openCampaignModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Campaign
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="campaign-search" placeholder="Search campaigns..." oninput="renderCampaigns()">
+        </div>
+        <select class="filter-select" id="campaign-status-filter" onchange="renderCampaigns()">
+          <option value="">All Status</option>
+          <option value="draft">Draft</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="sent">Sent</option>
+        </select>
+      </div>
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table id="campaigns-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Subject</th>
+              <th>Audience</th>
+              <th>Send Date</th>
+              <th>Status</th>
+              <th>Sent</th>
+              <th>Opened</th>
+              <th>Replied</th>
+              <th>Deals</th>
+            </tr>
+          </thead>
+          <tbody id="campaigns-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CAMPAIGN DETAIL
+    ════════════════════════════════════════════════════ -->
+    <div id="view-campaign-detail" class="view">
+      <!-- Populated dynamically by renderCampaignDetail() -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         DOCUMENTS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-documents" class="view">
+      <div class="page-header">
+        <div class="page-title">Documents</div>
+        <span class="page-subtitle" id="documents-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openDocModal('global', '', null)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Document
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="doc-search" placeholder="Search documents...">
+        </div>
+        <select class="filter-select" id="doc-type-filter">
+          <option value="">All Types</option>
+          <option value="contract">Contract</option>
+          <option value="proposal">Proposal</option>
+          <option value="presentation">Presentation</option>
+          <option value="other">Other</option>
+        </select>
+        <select class="filter-select" id="doc-entity-filter">
+          <option value="">All Sources</option>
+          <option value="contact">Contacts</option>
+          <option value="deal">Deals</option>
+        </select>
+      </div>
+      <div id="documents-list" style="flex:1;overflow-y:auto"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         RENEWALS
+    ════════════════════════════════════════════════════ -->
+    <div id="view-renewals" class="view">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="page-title">Renewals</div>
+          <span id="renewals-count" style="font-size:12px;color:var(--text-muted)">0 subscriptions</span>
+        </div>
+        <div class="header-actions">
+          <select class="form-select" id="renewals-status-filter" onchange="renderRenewals()" style="width:130px">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="At Risk">At Risk</option>
+            <option value="Churned">Churned</option>
+          </select>
+          <button class="btn btn-primary" onclick="openRenewalModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Subscription
+          </button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Contact</th>
+                <th>Company</th>
+                <th>MRR</th>
+                <th>Start Date</th>
+                <th>Renewal Date</th>
+                <th>Status</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="renewals-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CALENDAR
+    ════════════════════════════════════════════════════ -->
+    <div id="view-calendar" class="view">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="page-title">Calendar</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <button class="btn btn-ghost btn-sm" onclick="calendarPrev()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><polyline points="15,18 9,12 15,6"/></svg>
+            </button>
+            <span id="calendar-month-label" style="font-size:13px;font-weight:600;min-width:130px;text-align:center"></span>
+            <button class="btn btn-ghost btn-sm" onclick="calendarNext()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><polyline points="9,18 15,12 9,6"/></svg>
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="calendarToday()" style="margin-left:4px">Today</button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openMeetingModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Schedule Meeting
+          </button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto;padding:16px">
+        <div id="calendar-grid-container"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         NOTES WIKI (Phase 19)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-notes" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Notes</div>
+          <span class="page-subtitle" id="notes-count"></span>
+        </div>
+        <div class="header-actions">
+          <input type="text" class="search-bar" id="notes-search" placeholder="Search notes..." oninput="renderNotes()" style="width:200px" />
+          <select class="form-select" id="notes-tag-filter" onchange="renderNotes()" style="width:150px;font-size:12px">
+            <option value="">All tags</option>
+          </select>
+          <button class="btn btn-primary" onclick="openNoteModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Note
+          </button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div id="notes-list" class="notes-grid"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         ASSETS (Phase 24)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-assets" class="view">
+      <div class="page-header">
+        <div class="page-title">Assets</div>
+        <span class="page-subtitle" id="assets-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="p24OpenAssetModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Asset
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="assets-search" placeholder="Search assets..." oninput="p24RenderAssets()">
+        </div>
+        <select class="filter-select" id="assets-type-filter" onchange="p24RenderAssets()">
+          <option value="">All Types</option>
+          <option value="Hardware">Hardware</option>
+          <option value="Software">Software</option>
+          <option value="License">License</option>
+          <option value="Other">Other</option>
+        </select>
+        <select class="filter-select" id="assets-status-filter" onchange="p24RenderAssets()">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Retired">Retired</option>
+          <option value="Lost">Lost</option>
+        </select>
+      </div>
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table id="assets-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Serial</th>
+              <th>Status</th>
+              <th>Value</th>
+              <th>Warranty Expiry</th>
+              <th>Assigned To</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="assets-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SEQUENCES (Phase 25)
+    ═══════════════════════════════════════════════════ -->
+    <div id="view-sequences" class="view">
+      <div class="page-header">
+        <div class="page-title">Sequences</div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" onclick="p25OpenSequenceModal()">New Sequence</button>
+          <button class="btn btn-primary" id="p25-enroll-btn" style="display:none" onclick="p25OpenEnrollModal()">Enroll Selected</button>
+        </div>
+      </div>
+      <div id="view-sequences-content"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         METRICS (Phase 26)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-metrics" class="view">
+      <div class="page-header">
+        <div class="page-title">SaaS Metrics</div>
+        <div class="header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="p26LoadMetrics()">Refresh</button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div id="p26-metrics-body" style="padding:16px"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         SUPPORT TICKETS (Phase 26)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-support" class="view">
+      <div class="page-header">
+        <div class="page-title">Support Tickets</div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="p26OpenTicketModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Ticket
+          </button>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="support-search" placeholder="Search tickets..." oninput="p26FilterTickets()">
+        </div>
+        <select class="filter-select" id="support-status-filter" onchange="p26FilterTickets()">
+          <option value="">All Status</option>
+          <option>Open</option>
+          <option>In Progress</option>
+          <option>Resolved</option>
+          <option>Closed</option>
+        </select>
+        <select class="filter-select" id="support-priority-filter" onchange="p26FilterTickets()">
+          <option value="">All Priority</option>
+          <option>Critical</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+      </div>
+      <div class="table-wrap" style="flex:1;overflow-y:auto">
+        <table id="p26-tickets-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Category</th>
+              <th>Contact</th>
+              <th>Assigned To</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="p26-tickets-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         TICKET DETAIL (Phase 26)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-ticket-detail" class="view">
+      <div id="p26-ticket-detail-body"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CUSTOMERS — CLIENT HEALTH DASHBOARD (Phase 26)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-customers" class="view">
+      <div class="page-header">
+        <div class="page-title">Customers</div>
+        <span class="page-subtitle" id="customers-count"></span>
+        <div class="header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="p26LoadCustomers()">Refresh</button>
+        </div>
+      </div>
+      <div class="page-content" style="overflow-y:auto">
+        <div id="customers-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:16px">
+          <div style="color:var(--text-muted);font-size:13px;text-align:center;padding:32px;grid-column:1/-1">Loading customers...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CUSTOMER DETAIL (Phase 26)
+    ════════════════════════════════════════════════════ -->
+    <div id="view-customer-detail" class="view">
+      <div id="p26-customer-detail-body">
+        <!-- Populated dynamically by p26RenderCustomerDetail() -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ════ MOBILE BOTTOM TAB BAR (Phase 26 PWA) ════ -->
+  <nav class="mobile-tab-bar" id="mobile-tab-bar">
+    <button class="mobile-tab" data-view="dashboard" onclick="p26MobileNav('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Dashboard</span>
+    </button>
+    <button class="mobile-tab" data-view="contacts" onclick="p26MobileNav('contacts')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Contacts</span>
+    </button>
+    <button class="mobile-tab" data-view="pipeline" onclick="p26MobileNav('pipeline')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span>Pipeline</span>
+    </button>
+    <button class="mobile-tab" data-view="activities" onclick="p26MobileNav('activities')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      <span>Activities</span>
+    </button>
+    <button class="mobile-tab" data-view="more" id="mobile-tab-more" onclick="p26ToggleMobileMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <span>More</span>
+    </button>
+  </nav>
+
+  <!-- Mobile More Menu (slides up from bottom) -->
+  <div class="mobile-more-menu" id="mobile-more-menu" style="display:none">
+    <div class="mobile-more-backdrop" onclick="p26CloseMobileMenu()"></div>
+    <div class="mobile-more-sheet">
+      <div class="mobile-more-header">
+        <span style="font-weight:600;font-size:15px">More</span>
+        <button onclick="p26CloseMobileMenu()" style="background:none;border:none;color:var(--text-muted);font-size:22px;line-height:1;cursor:pointer">&times;</button>
+      </div>
+      <div class="mobile-more-items">
+        <button class="mobile-more-item" onclick="p26MobileNav('tasks')">Tasks</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('reports')">Reports</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('invoices')">Invoices</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('customers')">Customers</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('renewals')">Renewals</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('meetings')">Meetings</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('documents')">Documents</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('catalog')">Catalog</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('sequences')">Sequences</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('notes')">Notes</button>
+        <button class="mobile-more-item" onclick="p26MobileNav('settings')">Settings</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     EMAIL COMPOSE MODAL (Phase 24)
+════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-email-compose">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title">Compose Email</span>
+      <button class="modal-close" onclick="closeModal('modal-email-compose')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="email-compose-contact-id" />
+      <input type="hidden" id="email-compose-deal-id" />
+      <div class="form-group">
+        <label class="form-label">To (Contact)</label>
+        <div style="position:relative">
+          <input type="text" class="form-input" id="email-compose-to-search" placeholder="Search contact name or email..." autocomplete="off" oninput="p24ContactSearchAutocomplete(this.value)" />
+          <div id="email-compose-autocomplete" style="position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:6px;max-height:160px;overflow-y:auto;z-index:100;display:none"></div>
+        </div>
+        <div id="email-compose-to-display" style="margin-top:6px;font-size:12px;color:var(--text-muted)"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" id="email-compose-subject" placeholder="Subject line..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          Body
+          <span style="margin-left:8px">
+            <select class="form-select" id="email-compose-template-picker" style="display:inline;width:auto;font-size:11px;padding:2px 6px" onchange="p24InsertEmailTemplate(this.value)">
+              <option value="">Insert Template</option>
+            </select>
+          </span>
+        </label>
+        <textarea class="form-input" id="email-compose-body" rows="10" placeholder="Write your message here..." style="resize:vertical;font-family:inherit"></textarea>
+      </div>
+      <div id="email-compose-preview" style="display:none">
+        <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px">Preview</div>
+        <div id="email-compose-preview-body" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:13px;white-space:pre-wrap;max-height:200px;overflow-y:auto"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-email-compose')">Cancel</button>
+      <button class="btn btn-ghost btn-sm" onclick="p24ToggleEmailPreview()">Preview</button>
+      <button class="btn btn-primary" onclick="p24SendEmail()">Send Email</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ASSET MODAL (Phase 24)
+════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-asset">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-asset-title">Add Asset</span>
+      <button class="modal-close" onclick="closeModal('modal-asset')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="asset-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Asset Name *</label>
+          <input type="text" class="form-input" id="asset-form-name" placeholder="MacBook Pro 16-inch" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="asset-form-type">
+            <option value="Hardware">Hardware</option>
+            <option value="Software">Software</option>
+            <option value="License">License</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="asset-form-status">
+            <option value="Active">Active</option>
+            <option value="Retired">Retired</option>
+            <option value="Lost">Lost</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Serial Number</label>
+          <input type="text" class="form-input" id="asset-form-serial" placeholder="SN-XXXXXXX" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Value ($)</label>
+          <input type="number" class="form-input" id="asset-form-value" min="0" step="0.01" placeholder="0.00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Purchase Date</label>
+          <input type="date" class="form-input" id="asset-form-purchase-date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Warranty Expiry</label>
+          <input type="date" class="form-input" id="asset-form-warranty" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Assigned Contact</label>
+          <select class="form-select" id="asset-form-contact"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Assigned Deal</label>
+          <select class="form-select" id="asset-form-deal"></select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-input" id="asset-form-notes" rows="3" placeholder="Additional notes..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-asset')">Cancel</button>
+      <button class="btn btn-primary" onclick="p24SaveAsset()">Save Asset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Campaign Modal -->
+<div class="modal-overlay" id="modal-campaign">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-campaign-title">New Campaign</span>
+      <button class="modal-close" onclick="closeModal('modal-campaign')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="campaign-form-id" />
+      <div class="form-grid form-grid-2" style="margin-bottom:16px">
+        <div class="form-group span-2">
+          <label class="form-label">Campaign Name *</label>
+          <input type="text" class="form-input" id="campaign-form-name" placeholder="Q2 Outreach — Enterprise Accounts" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Subject Line</label>
+          <input type="text" class="form-input" id="campaign-form-subject" placeholder="Introducing our new platform features..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Audience Type</label>
+          <select class="form-select" id="campaign-form-audience-type" onchange="toggleCampaignAudienceUI()">
+            <option value="manual">Manual Contact Selection</option>
+            <option value="smartlist">Smart List</option>
+          </select>
+        </div>
+        <div class="form-group" id="campaign-smartlist-wrap" style="display:none">
+          <label class="form-label">Smart List</label>
+          <select class="form-select" id="campaign-form-smartlist"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Send Date</label>
+          <input type="date" class="form-input" id="campaign-form-senddate" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="campaign-form-status">
+            <option value="draft">Draft</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="sent">Sent</option>
+          </select>
+        </div>
+        <div class="form-group" id="campaign-stats-wrap" style="display:none">
+          <label class="form-label">Sent Count</label>
+          <input type="number" class="form-input" id="campaign-form-sent" placeholder="0" min="0" />
+        </div>
+        <div class="form-group" id="campaign-stats-opened-wrap" style="display:none">
+          <label class="form-label">Opened</label>
+          <input type="number" class="form-input" id="campaign-form-opened" placeholder="0" min="0" />
+        </div>
+        <div class="form-group" id="campaign-stats-replied-wrap" style="display:none">
+          <label class="form-label">Replied</label>
+          <input type="number" class="form-input" id="campaign-form-replied" placeholder="0" min="0" />
+        </div>
+      </div>
+      <div id="campaign-manual-contacts-wrap" style="display:block">
+        <div class="form-label" style="margin-bottom:8px">Select Contacts</div>
+        <div class="search-wrap" style="margin-bottom:8px;max-width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="campaign-contact-search" placeholder="Filter contacts..." oninput="filterCampaignContacts()">
+        </div>
+        <div id="campaign-contacts-list" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-campaign" style="display:none" onclick="deleteCampaign()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-campaign')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-campaign" onclick="saveCampaign()">Save Campaign</button>
+    </div>
+  </div>
+</div>
+
+<!-- Meeting Modal -->
+<div class="modal-overlay" id="modal-meeting">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-meeting-title">Schedule Meeting</span>
+      <button class="modal-close" onclick="closeModal('modal-meeting')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="meeting-form-id" />
+      <input type="hidden" id="meeting-form-contact-id" />
+      <input type="hidden" id="meeting-form-deal-id" />
+      <div class="form-grid form-grid-2" style="margin-bottom:16px">
+        <div class="form-group span-2">
+          <label class="form-label">Meeting Title *</label>
+          <input type="text" class="form-input" id="meeting-form-title" placeholder="Intro Call with Sarah Mitchell" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" id="meeting-form-date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Time</label>
+          <input type="time" class="form-input" id="meeting-form-time" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration</label>
+          <select class="form-select" id="meeting-form-duration">
+            <option value="15">15 minutes</option>
+            <option value="30" selected>30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location / Video Link</label>
+          <input type="text" class="form-input" id="meeting-form-location" placeholder="Zoom, Google Meet, 123 Main St..." />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Agenda Notes</label>
+          <textarea class="form-textarea" id="meeting-form-agenda" placeholder="Topics to cover, goals for the meeting..."></textarea>
+        </div>
+      </div>
+      <div>
+        <div class="form-label" style="margin-bottom:8px">Attendees</div>
+        <div class="search-wrap" style="margin-bottom:8px;max-width:100%">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="input-search" id="meeting-attendee-search" placeholder="Filter contacts..." oninput="filterMeetingAttendees()">
+        </div>
+        <div id="meeting-attendees-list" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface2)"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-meeting" style="display:none" onclick="deleteMeeting()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-meeting')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-meeting" onclick="saveMeeting()">Save Meeting</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     GLOBAL SEARCH PALETTE (Cmd+K)
+════════════════════════════════════════════════════ -->
+<div class="search-palette-overlay" id="search-palette-overlay" onclick="closeSearchPalette()">
+  <div class="search-palette" onclick="event.stopPropagation()">
+    <div class="search-palette-input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="search-palette-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search-palette-input" class="search-palette-input" placeholder="Search contacts, companies, deals..." autocomplete="off" />
+      <kbd class="search-palette-esc">Esc</kbd>
+    </div>
+    <div id="search-palette-results" class="search-palette-results"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     FLOATING BULK ACTION BAR
+════════════════════════════════════════════════════ -->
+<div class="bulk-action-bar" id="bulk-action-bar">
+  <span class="bulk-count" id="bulk-count">0 selected</span>
+  <div class="bulk-divider"></div>
+  <select class="filter-select bulk-select" id="bulk-stage-select">
+    <option value="">Update Stage...</option>
+    <option>Lead</option>
+    <option>Qualified</option>
+    <option>Prospect</option>
+    <option>Customer</option>
+    <option>Churned</option>
+  </select>
+  <button class="btn btn-secondary btn-sm" onclick="bulkUpdateStage()">Apply Stage</button>
+  <div class="bulk-divider"></div>
+  <input type="text" class="form-input bulk-owner-input" id="bulk-owner-input" placeholder="Owner..." maxlength="4" />
+  <button class="btn btn-secondary btn-sm" onclick="bulkAssignOwner()">Assign Owner</button>
+  <div class="bulk-divider"></div>
+  <button class="btn btn-secondary btn-sm" onclick="openBulkEmailModal()">Email Selected</button>
+  <div class="bulk-divider"></div>
+  <button class="btn btn-danger btn-sm" onclick="bulkDeleteSelected()">Delete Selected</button>
+  <button class="btn btn-ghost btn-sm" onclick="clearBulkSelection()">Clear</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════════════ -->
+
+<!-- Contact Modal -->
+<div class="modal-overlay" id="modal-contact">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-contact-title">Add Contact</span>
+      <button class="modal-close" onclick="closeModal('modal-contact')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="contact-form-id" />
+      <div class="form-grid form-grid-2" style="margin-bottom:16px">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" class="form-input" id="contact-form-name" placeholder="Sarah Mitchell" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-input" id="contact-form-title" placeholder="VP of Sales" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="contact-form-email" placeholder="email@company.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" id="contact-form-phone" placeholder="312-555-0100" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company</label>
+          <select class="form-select" id="contact-form-company"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stage</label>
+          <select class="form-select" id="contact-form-stage">
+            <option>Lead</option>
+            <option>Qualified</option>
+            <option>Prospect</option>
+            <option>Customer</option>
+            <option>Churned</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner</label>
+          <input type="text" class="form-input" id="contact-form-owner" placeholder="AW" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lead Source</label>
+          <select class="form-select" id="contact-form-lead-source">
+            <option value="">Unknown</option>
+            <option value="Referral">Referral</option>
+            <option value="Cold Outreach">Cold Outreach</option>
+            <option value="Website">Website</option>
+            <option value="Event/Conference">Event / Conference</option>
+            <option value="Social Media">Social Media</option>
+            <option value="Partner">Partner</option>
+            <option value="Inbound">Inbound</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Territory</label>
+          <select class="form-select" id="contact-form-territory">
+            <option value="">-- None --</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+            <option value="Central">Central</option>
+            <option value="Remote">Remote</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Referred By</label>
+          <select class="form-select" id="contact-form-referred-by">
+            <option value="">-- None --</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Tags <span style="color:var(--text-muted);font-weight:400;text-transform:none">(Enter or comma to add)</span></label>
+          <div class="form-tags-input" id="contact-tags-wrap" onclick="document.getElementById('contact-tags-input').focus()">
+            <input type="text" id="contact-tags-input" placeholder="enterprise, vip, warm..." />
+          </div>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="contact-form-notes" placeholder="Any context or notes about this contact..."></textarea>
+        </div>
+      </div>
+
+      <!-- Activity log section (shown when editing) -->
+      <div id="contact-activities-section" style="display:none">
+        <div class="divider"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="detail-section-title" style="margin:0">Activity History</div>
+          <button class="btn btn-secondary btn-sm" id="btn-log-activity-from-contact">Log Activity</button>
+        </div>
+        <div id="contact-activities-list"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-contact" style="display:none">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-contact')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-contact">Save Contact</button>
+    </div>
+  </div>
+</div>
+
+<!-- Company Modal -->
+<div class="modal-overlay" id="modal-company">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-company-title">Add Company</span>
+      <button class="modal-close" onclick="closeModal('modal-company')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="company-form-id" />
+      <div class="form-grid form-grid-2" style="margin-bottom:14px">
+        <div class="form-group">
+          <label class="form-label">Company Name *</label>
+          <input type="text" class="form-input" id="company-form-name" placeholder="Apex Dynamics" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Industry</label>
+          <select class="form-select" id="company-form-industry">
+            <option value="">Select industry...</option>
+            <option>Technology</option>
+            <option>Finance</option>
+            <option>Healthcare</option>
+            <option>Real Estate</option>
+            <option>Manufacturing</option>
+            <option>Retail</option>
+            <option>Education</option>
+            <option>Media</option>
+            <option>Consulting</option>
+            <option>Legal</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Website</label>
+          <input type="text" class="form-input" id="company-form-website" placeholder="company.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" id="company-form-phone" placeholder="312-555-0100" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Address</label>
+          <input type="text" class="form-input" id="company-form-address" placeholder="123 Main St" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-input" id="company-form-city" placeholder="Chicago" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Territory</label>
+          <select class="form-select" id="company-form-territory">
+            <option value="">-- None --</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+            <option value="Central">Central</option>
+            <option value="Remote">Remote</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="company-form-notes" placeholder="Notes about this company..."></textarea>
+        </div>
+      </div>
+      <div id="company-contacts-section" style="display:none">
+        <div class="divider"></div>
+        <div class="detail-section-title">Linked Contacts</div>
+        <div id="company-contacts-list" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-company" style="display:none">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-company')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-company">Save Company</button>
+    </div>
+  </div>
+</div>
+
+<!-- Deal Modal -->
+<div class="modal-overlay" id="modal-deal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-deal-title">Add Deal</span>
+      <button class="modal-close" onclick="closeModal('modal-deal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="deal-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Deal Name *</label>
+          <input type="text" class="form-input" id="deal-form-name" placeholder="Apex Dynamics — Enterprise" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company</label>
+          <select class="form-select" id="deal-form-company"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact</label>
+          <select class="form-select" id="deal-form-contact"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Value ($)</label>
+          <input type="number" class="form-input" id="deal-form-value" placeholder="50000" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stage</label>
+          <select class="form-select" id="deal-form-stage" onchange="toggleWinLossReason(this.value)"></select>
+        </div>
+        <div class="form-group span-2" id="win-loss-reason-wrap" style="display:none">
+          <label class="form-label" id="win-loss-reason-label">Win Reason</label>
+          <input type="text" class="form-input" id="deal-form-win-loss-reason" placeholder="e.g. Best price, Strong relationship..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner</label>
+          <input type="text" class="form-input" id="deal-form-owner" placeholder="AW" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Close Date</label>
+          <input type="date" class="form-input" id="deal-form-closedate" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Recurring Value ($)</label>
+          <input type="number" class="form-input" id="deal-form-recurring-value" placeholder="0" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Recurring Type</label>
+          <select class="form-select" id="deal-form-recurring-type">
+            <option value="">None</option>
+            <option value="monthly">Monthly (MRR)</option>
+            <option value="annual">Annual (ARR)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Currency</label>
+          <select class="form-select" id="deal-form-currency">
+            <option value="USD">USD — US Dollar</option>
+            <option value="CAD">CAD — Canadian Dollar</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="AUD">AUD — Australian Dollar</option>
+            <option value="MXN">MXN — Mexican Peso</option>
+            <option value="CUSTOM">Custom</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lead Source</label>
+          <select class="form-select" id="deal-form-lead-source">
+            <option value="">Unknown</option>
+            <option value="Referral">Referral</option>
+            <option value="Cold Outreach">Cold Outreach</option>
+            <option value="Website">Website</option>
+            <option value="Event/Conference">Event / Conference</option>
+            <option value="Social Media">Social Media</option>
+            <option value="Partner">Partner</option>
+            <option value="Inbound">Inbound</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="deal-form-notes" placeholder="Context, next steps, blockers..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-deal" style="display:none">Delete Deal</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-deal')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-deal">Save Deal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Subscription Modal -->
+<div class="modal-overlay" id="modal-subscription">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-subscription-title">Add Subscription</span>
+      <button class="modal-close" onclick="closeModal('modal-subscription')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="sub-form-id" />
+      <input type="hidden" id="sub-form-company-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Plan / Product Name *</label>
+          <input type="text" class="form-input" id="sub-form-plan-name" placeholder="Enterprise Plan" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">MRR ($)</label>
+          <input type="number" class="form-input" id="sub-form-mrr" placeholder="2499" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Billing Cycle</label>
+          <select class="form-select" id="sub-form-billing-cycle">
+            <option value="monthly">Monthly</option>
+            <option value="annual">Annual</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Start Date</label>
+          <input type="date" class="form-input" id="sub-form-start-date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Renewal Date</label>
+          <input type="date" class="form-input" id="sub-form-renewal-date" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="sub-form-status">
+            <option value="active">Active</option>
+            <option value="trial">Trial</option>
+            <option value="at-risk">At Risk</option>
+            <option value="churned">Churned</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="sub-form-notes" placeholder="Contract details, renewal notes..." rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-subscription" style="display:none" onclick="deleteSubscription()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-subscription')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSubscription()">Save Subscription</button>
+    </div>
+  </div>
+</div>
+
+<!-- Activity Modal -->
+<div class="modal-overlay" id="modal-activity">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Log Activity</span>
+      <button class="modal-close" onclick="closeModal('modal-activity')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="activity-form-id" />
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Activity Type</label>
+          <select class="form-select" id="activity-form-type">
+            <option>Note</option>
+            <option>Call</option>
+            <option>Email</option>
+            <option>Meeting</option>
+            <option>Task</option>
+          </select>
+        </div>
+        <!-- Email Template Picker (shown only for Email type) -->
+        <div class="form-group" id="email-template-picker" style="display:none">
+          <label class="form-label">Email Template</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select class="form-select" id="template-picker-select" style="flex:1">
+              <option value="">Use Template...</option>
+            </select>
+            <a href="#" onclick="event.preventDefault();openEmailTemplatesModal()" style="font-size:11px;color:var(--accent-hover);white-space:nowrap">Manage</a>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact</label>
+          <select class="form-select" id="activity-form-contact"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Related Deal</label>
+          <select class="form-select" id="activity-form-deal"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" id="activity-form-date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note / Summary *</label>
+          <textarea class="form-textarea" id="activity-form-note" placeholder="What happened? What was discussed? What are the next steps?" style="min-height:100px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-activity')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-activity">Log Activity</button>
+    </div>
+  </div>
+</div>
+
+<!-- Task Modal -->
+<div class="modal-overlay" id="modal-task">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add Task</span>
+      <button class="modal-close" onclick="closeModal('modal-task')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="task-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Task Title *</label>
+          <input type="text" class="form-input" id="task-form-title" placeholder="Follow up with client..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Due Date</label>
+          <input type="date" class="form-input" id="task-form-duedate" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-select" id="task-form-priority">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Contact</label>
+          <select class="form-select" id="task-form-contact"></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-task')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-task">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pipeline Settings Modal -->
+<div class="modal-overlay" id="modal-pipeline-settings">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title">Pipeline Stage Settings</span>
+      <button class="modal-close" onclick="closeModal('modal-pipeline-settings')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Customize your pipeline stages, reorder them, and set win probabilities for each.</p>
+      <div id="pipeline-settings-stages"></div>
+      <button class="btn btn-secondary btn-sm" onclick="addPipelineSettingStage()" style="margin-top:10px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:12px;height:12px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Stage
+      </button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-pipeline-settings')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-pipeline-settings">Save Stages</button>
+    </div>
+  </div>
+</div>
+
+<!-- Email Templates Modal (Phase 20 enhanced) -->
+<div class="modal-overlay" id="modal-email-templates">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title">Email Templates</span>
+      <button class="modal-close" onclick="closeModal('modal-email-templates')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="email-templates-list"></div>
+      <div class="divider"></div>
+      <div class="detail-section-title" style="margin-bottom:12px">Add New Template</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Template Name</label>
+          <input type="text" class="form-input" id="template-form-name" placeholder="Follow-up intro..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="template-form-category">
+            <option value="General">General</option>
+            <option value="Intro">Intro</option>
+            <option value="Follow-up">Follow-up</option>
+            <option value="Proposal">Proposal</option>
+            <option value="Closing">Closing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" id="template-form-subject" placeholder="Following up on our conversation..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Body</label>
+          <textarea class="form-textarea" id="template-form-body" placeholder="Hi {{contact.name}}, great talking with you..." style="min-height:100px"></textarea>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Variables: <code>{{contact.name}}</code> <code>{{contact.company}}</code> <code>{{deal.name}}</code> <code>{{deal.value}}</code> <code>{{user.name}}</code></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+        <button class="btn btn-secondary btn-sm" onclick="addEmailTemplate()">Add Template</button>
+        <button class="btn btn-ghost btn-sm" onclick="p20PreviewTemplateForm()">Preview</button>
+      </div>
+      <div id="template-form-preview" style="display:none;border:1px solid var(--border);border-radius:6px;padding:10px;background:var(--surface2);margin-top:8px;font-size:12px;line-height:1.6"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-email-templates')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ════ MODAL: DOCUMENT ════ -->
+<div class="modal-overlay" id="modal-doc">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-doc-title">Add Document</span>
+      <button class="modal-close" onclick="closeModal('modal-doc')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="doc-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="doc-form-title" placeholder="e.g. Master Services Agreement" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">URL / Link</label>
+          <input type="url" class="form-input" id="doc-form-url" placeholder="https://drive.google.com/..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="doc-form-type">
+            <option value="contract">Contract</option>
+            <option value="proposal">Proposal</option>
+            <option value="presentation">Presentation</option>
+            <option value="other" selected>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Linked To</label>
+          <select class="form-select" id="doc-form-entity" onchange="updateDocEntitySelect()">
+            <option value="">None</option>
+            <option value="contact">Contact</option>
+            <option value="deal">Deal</option>
+          </select>
+        </div>
+        <div class="form-group span-2" id="doc-entity-picker-wrap" style="display:none">
+          <label class="form-label" id="doc-entity-picker-label">Select Contact</label>
+          <select class="form-select" id="doc-form-entity-id"></select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="doc-form-notes" placeholder="Any notes about this document..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-doc" style="display:none" onclick="deleteDoc()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-doc')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDoc()">Save Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: COMPETITOR ════ -->
+<div class="modal-overlay" id="modal-competitor">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-competitor-title">Add Competitor</span>
+      <button class="modal-close" onclick="closeModal('modal-competitor')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="comp-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Competitor Name *</label>
+          <input type="text" class="form-input" id="comp-form-name" list="competitor-names-list" placeholder="e.g. Salesforce, HubSpot..." />
+          <datalist id="competitor-names-list"></datalist>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Our Position</label>
+          <select class="form-select" id="comp-form-position">
+            <option value="winning">Winning</option>
+            <option value="tied" selected>Tied</option>
+            <option value="losing">Losing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date Noted</label>
+          <input type="date" class="form-input" id="comp-form-date" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Their Strengths</label>
+          <textarea class="form-textarea" id="comp-form-strengths" placeholder="What do they do well?" style="min-height:60px"></textarea>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Their Weaknesses</label>
+          <textarea class="form-textarea" id="comp-form-weaknesses" placeholder="Where do we have an advantage?" style="min-height:60px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-competitor" style="display:none" onclick="deleteCompetitor()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-competitor')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCompetitor()">Save Competitor</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<!-- ════ MODAL: CONTACT MERGE ════ -->
+<div class="modal-overlay" id="modal-merge-contact">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Merge Contact</span>
+      <button class="modal-close" onclick="closeModal('modal-merge-contact')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">All activities, deals, and tasks from the duplicate will be merged into the primary contact. The duplicate will be deleted.</p>
+      <div class="form-group">
+        <label class="form-label">Primary Contact (keep)</label>
+        <div id="merge-primary-name" style="padding:8px;background:var(--surface2);border-radius:6px;font-size:13px;font-weight:500"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Duplicate to merge in (will be deleted)</label>
+        <input type="text" class="form-input" id="merge-search-input" placeholder="Search by name or email..." oninput="searchMergeTarget(this.value)" />
+        <div id="merge-search-results" style="margin-top:6px;display:flex;flex-direction:column;gap:4px"></div>
+      </div>
+      <div id="merge-target-preview" style="display:none;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;font-size:12px;margin-top:4px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-merge-contact')">Cancel</button>
+      <button class="btn btn-danger" id="btn-confirm-merge" onclick="confirmMerge()" disabled>Merge Contacts</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: BULK EMAIL ════ -->
+<div class="modal-overlay" id="modal-bulk-email">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title">Compose Email</span>
+      <button class="modal-close" onclick="closeModal('modal-bulk-email')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">To</label>
+        <div id="bulk-email-recipients" style="display:flex;flex-wrap:wrap;gap:4px;padding:6px;background:var(--surface2);border-radius:6px;border:1px solid var(--border);min-height:36px"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" id="bulk-email-subject" placeholder="Subject line..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body</label>
+        <textarea class="form-textarea" id="bulk-email-body" placeholder="Write your email..." style="min-height:140px"></textarea>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted)">Opens your email client and logs an activity for each contact.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-bulk-email')">Cancel</button>
+      <button class="btn btn-primary" onclick="sendBulkEmail()">Send Email</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: CATALOG ITEM ════ -->
+<div class="modal-overlay" id="modal-catalog-item">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-catalog-item-title">Add Catalog Item</span>
+      <button class="modal-close" onclick="closeModal('modal-catalog-item')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="catalog-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Item Name *</label>
+          <input type="text" class="form-input" id="catalog-form-name" placeholder="e.g. BoredRoom Starter Package" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="catalog-form-category">
+            <option value="">Select...</option>
+            <option>Software</option>
+            <option>Hardware</option>
+            <option>Service</option>
+            <option>Consulting</option>
+            <option>Support</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Unit Price ($)</label>
+          <input type="number" class="form-input" id="catalog-form-price" placeholder="1000" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Billing Type</label>
+          <select class="form-select" id="catalog-form-billing">
+            <option value="one-time">One-Time</option>
+            <option value="monthly">Monthly</option>
+            <option value="annual">Annual</option>
+            <option value="hourly">Hourly</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">SKU / Code</label>
+          <input type="text" class="form-input" id="catalog-form-sku" placeholder="BR-001" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Qty On Hand</label>
+          <input type="number" class="form-input" id="catalog-form-qty" placeholder="0" min="0" step="1" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reorder Point</label>
+          <input type="number" class="form-input" id="catalog-form-reorder" placeholder="0" min="0" step="1" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="catalog-form-desc" placeholder="What's included, key features, notes..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-catalog-item" style="display:none" onclick="deleteCatalogItem()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-catalog-item')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCatalogItem()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: PRODUCT PICKER ════ -->
+<div class="modal-overlay" id="modal-product-picker">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add from Catalog</span>
+      <button class="modal-close" onclick="closeModal('modal-product-picker')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="search-wrap" style="margin-bottom:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="input-search" id="picker-search" placeholder="Search catalog..." oninput="renderProductPicker()" style="flex:1" />
+      </div>
+      <div id="picker-results" style="display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-product-picker')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: PROPOSAL GENERATOR ════ -->
+<div class="modal-overlay" id="modal-proposal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span class="modal-title">Generate Proposal</span>
+      <button class="modal-close" onclick="closeModal('modal-proposal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Deal / Contact selectors -->
+      <div class="form-grid form-grid-2" style="margin-bottom:12px">
+        <div class="form-group">
+          <label class="form-label">Deal</label>
+          <select class="form-select" id="prop-deal-select" onchange="proposalDealChanged()"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact</label>
+          <select class="form-select" id="prop-contact-select"></select>
+        </div>
+      </div>
+      <!-- Proposal title / valid-until -->
+      <div class="form-grid form-grid-2" style="margin-bottom:12px">
+        <div class="form-group">
+          <label class="form-label">Proposal Title</label>
+          <input type="text" class="form-input" id="prop-title" placeholder="e.g. Enterprise Platform Proposal" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Valid Until</label>
+          <input type="date" class="form-input" id="prop-valid-until" />
+        </div>
+      </div>
+      <!-- Scope of Work -->
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">Scope of Work</label>
+        <textarea class="form-textarea" id="prop-scope" placeholder="Describe the services, deliverables, and timeline..." style="min-height:72px"></textarea>
+      </div>
+      <!-- Line items -->
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label class="form-label" style="margin:0">Services / Pricing</label>
+          <button class="btn btn-secondary btn-sm" onclick="proposalAddItem()">+ Add Line</button>
+        </div>
+        <div id="prop-items-list"></div>
+        <div id="prop-total-row" style="text-align:right;font-size:13px;font-weight:600;color:var(--text);padding-top:8px;border-top:1px solid var(--border);margin-top:4px"></div>
+      </div>
+      <!-- Terms -->
+      <div class="form-group">
+        <label class="form-label">Terms &amp; Conditions</label>
+        <textarea class="form-textarea" id="prop-terms" style="min-height:60px">Payment due within 30 days of acceptance. Prices are valid for the period stated above. All services subject to standard terms of service.</textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-proposal')">Cancel</button>
+      <button class="btn btn-primary" onclick="generateProposalFromModal()">Generate Proposal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: SMART LIST ════ -->
+<div class="modal-overlay" id="modal-smartlist">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">New Smart List</span>
+      <button class="modal-close" onclick="closeModal('modal-smartlist')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">List Name</label>
+        <input type="text" class="form-input" id="sl-form-name" placeholder="e.g. High-value prospects" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-select" id="sl-form-type" onchange="updateSlCriteriaFields()">
+          <option value="contacts">Contacts</option>
+          <option value="deals">Deals</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Filter Criteria</label>
+        <div id="sl-criteria-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px"></div>
+        <button class="btn btn-secondary btn-sm" onclick="addSlCriteria()">+ Add Criteria</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-smartlist')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSmartList()">Save List</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: RENEWAL / SUBSCRIPTION ════ -->
+<div class="modal-overlay" id="modal-renewal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-renewal-title">Add Subscription</span>
+      <button class="modal-close" onclick="closeModal('modal-renewal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="renewal-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Service Name *</label>
+          <input type="text" class="form-input" id="renewal-form-service" placeholder="Enterprise Plan, Support Contract..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact</label>
+          <select class="form-select" id="renewal-form-contact"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company</label>
+          <select class="form-select" id="renewal-form-company"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">MRR ($)</label>
+          <input type="number" class="form-input" id="renewal-form-mrr" placeholder="499" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="renewal-form-status">
+            <option value="Active">Active</option>
+            <option value="At Risk">At Risk</option>
+            <option value="Churned">Churned</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Start Date</label>
+          <input type="date" class="form-input" id="renewal-form-start" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Renewal Date</label>
+          <input type="date" class="form-input" id="renewal-form-renewal" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="renewal-form-notes" placeholder="Auto-renews, contract details..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-renewal" style="display:none">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-renewal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRenewal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: CALL / SMS LOG ════ -->
+<div class="modal-overlay" id="modal-call-log">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-call-log-title">Log Call / SMS</span>
+      <button class="modal-close" onclick="closeModal('modal-call-log')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="call-log-form-id" />
+      <input type="hidden" id="call-log-form-contact-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="call-log-form-type" onchange="toggleCallDuration()">
+            <option value="call">Call</option>
+            <option value="sms">SMS</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Direction</label>
+          <select class="form-select" id="call-log-form-direction">
+            <option value="outbound">Outbound</option>
+            <option value="inbound">Inbound</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date / Time</label>
+          <input type="datetime-local" class="form-input" id="call-log-form-date" />
+        </div>
+        <div class="form-group" id="call-log-duration-wrap">
+          <label class="form-label">Duration (minutes)</label>
+          <input type="number" class="form-input" id="call-log-form-duration" placeholder="5" min="0" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="call-log-form-notes" placeholder="What was discussed, outcome, next steps..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-call-log')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCallLog()">Save Log</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: DASHBOARD CUSTOMIZE (Phase 17) ════ -->
+<div class="modal-overlay" id="modal-dashboard-customize">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Customize Dashboard</span>
+      <button class="modal-close" onclick="closeModal('modal-dashboard-customize')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Toggle which widgets appear on the dashboard. Preferences are saved automatically.</p>
+      <div id="dashboard-widget-toggles" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="resetDashboardWidgets()">Reset to Default</button>
+      <button class="btn btn-primary" onclick="saveDashboardWidgets();closeModal('modal-dashboard-customize')">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: INVITE USER (Phase 17) ════ -->
+<div class="modal-overlay" id="modal-invite-user">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-invite-user-title">Invite Team Member</span>
+      <button class="modal-close" onclick="closeModal('modal-invite-user')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="invite-user-form-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Full Name *</label>
+          <input type="text" class="form-input" id="invite-user-name" placeholder="Jane Smith" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Email Address *</label>
+          <input type="email" class="form-input" id="invite-user-email" placeholder="jane@company.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-select" id="invite-user-role">
+            <option value="rep">Rep (own records only)</option>
+            <option value="manager">Manager (no settings/users)</option>
+            <option value="admin">Admin (full access)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner Tag</label>
+          <input type="text" class="form-input" id="invite-user-owner-tag" placeholder="e.g. JD, JS" maxlength="10" />
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Matches deal/contact owner field. Reps see only records where owner = this tag.</div>
+        </div>
+        <div class="form-group span-2" id="invite-user-password-wrap">
+          <label class="form-label">Temporary Password</label>
+          <input type="text" class="form-input" id="invite-user-password" placeholder="BoredRoom2025!" />
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Share this with the team member. They can change it after logging in.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger btn-sm" id="btn-delete-user" style="display:none" onclick="deleteTeamUser()">Remove User</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-invite-user')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-user" onclick="saveTeamUser()">Add Member</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     PHASE 18: E-SIGNATURE PAGE
+════════════════════════════════════════════════════ -->
+<div id="view-sign" class="view">
+  <!-- Populated dynamically by renderSignaturePage() -->
+</div>
+
+<!-- ════ PHASE 18 MODAL: LOG EMAIL ════ -->
+<div class="modal-overlay" id="modal-email-log">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <span class="modal-title">Log Email</span>
+      <button class="modal-close" onclick="closeModal('modal-email-log')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="email-log-id" />
+      <input type="hidden" id="email-log-contact-id" />
+      <div class="form-group">
+        <label class="form-label">Subject *</label>
+        <input type="text" class="form-input" id="email-log-subject" placeholder="Email subject..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Direction</label>
+        <select class="form-select" id="email-log-direction">
+          <option value="outbound">Outbound (sent)</option>
+          <option value="inbound">Inbound (received)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-input" id="email-log-date" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes / Body</label>
+        <textarea class="form-input" id="email-log-body" rows="4" placeholder="Summary or body of the email..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-email-log')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEmailLog()">Save Email Log</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PHASE 18 MODAL: BULK TASK ASSIGN ════ -->
+<div class="modal-overlay" id="modal-bulk-task-assign">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <span class="modal-title">Assign Selected Tasks</span>
+      <button class="modal-close" onclick="closeModal('modal-bulk-task-assign')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px" id="bulk-task-assign-count"></p>
+      <div class="form-group">
+        <label class="form-label">Assign To</label>
+        <select class="form-select" id="bulk-task-assign-owner">
+          <option value="">Select team member...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Date (optional — leave blank to keep existing)</label>
+        <input type="date" class="form-input" id="bulk-task-assign-due" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-bulk-task-assign')">Cancel</button>
+      <button class="btn btn-primary" onclick="executeBulkAssign()">Assign Tasks</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PHASE 18 MODAL: ENHANCED MERGE CONTACT ════ -->
+<div class="modal-overlay" id="modal-merge-contact-v2">
+  <div class="modal" style="max-width:700px;width:95vw">
+    <div class="modal-header">
+      <span class="modal-title">Merge Contacts</span>
+      <button class="modal-close" onclick="closeModal('modal-merge-contact-v2')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <!-- Step 1: Search -->
+      <div id="merge-v2-step1" style="padding:16px 20px">
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Select a duplicate contact to merge. All linked records will be reassigned to the primary contact, and the duplicate will be deleted.</p>
+        <div class="form-group">
+          <label class="form-label">Primary Contact (will be kept)</label>
+          <div id="merge-v2-primary-name" style="padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;font-size:13px;font-weight:500;color:var(--text)"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Search for Duplicate</label>
+          <input type="text" class="form-input" id="merge-v2-search" placeholder="Search by name or email..." oninput="searchMergeV2(this.value)" />
+          <div id="merge-v2-results" style="margin-top:6px;display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto"></div>
+        </div>
+      </div>
+      <!-- Step 2: Side-by-side comparison -->
+      <div id="merge-v2-step2" style="display:none;padding:16px 20px">
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Select which value to keep for each field. Click a cell to pick it. By default, the primary contact's values are used.</p>
+        <div id="merge-v2-comparison" style="overflow-x:auto"></div>
+      </div>
+      <!-- Step 3: Confirm -->
+      <div id="merge-v2-step3" style="display:none;padding:20px;text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--red);margin-bottom:8px">Confirm Merge</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px" id="merge-v2-confirm-text"></div>
+        <div style="font-size:12px;color:var(--red);margin-top:8px">This action cannot be undone.</div>
+      </div>
+    </div>
+    <div class="modal-footer" id="merge-v2-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-merge-contact-v2')">Cancel</button>
+      <button class="btn btn-primary" id="merge-v2-next-btn" onclick="mergeV2Next()" disabled>Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PHASE 19: NOTIFICATION CENTER DRAWER ════ -->
+<div id="notif-overlay" onclick="closeNotifCenter()" style="display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,0.3)"></div>
+<div id="notif-drawer" class="notif-drawer" onclick="event.stopPropagation()">
+  <div class="notif-drawer-header">
+    <div style="font-weight:600;font-size:14px">Notifications</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-ghost btn-sm" onclick="markAllNotifsRead()" style="font-size:11px">Mark all read</button>
+      <button onclick="closeNotifCenter()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="notif-drawer-list" class="notif-drawer-list">
+    <div style="padding:24px;text-align:center;color:var(--text-muted);font-size:12px">No notifications</div>
+  </div>
+</div>
+
+<!-- ════ PHASE 19 MODAL: CREATE / EDIT NOTE ════ -->
+<div class="modal-overlay" id="modal-kb-note">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-header">
+      <span class="modal-title" id="note-modal-title">New Note</span>
+      <button class="modal-close" onclick="closeModal('modal-kb-note')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+      <input type="hidden" id="note-edit-id" />
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" class="form-input" id="note-title" placeholder="Note title..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body</label>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Supports **bold**, *italic*, - lists, ## headings</div>
+        <textarea class="form-textarea" id="note-body" rows="10" placeholder="Write your note here..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tags (comma separated)</label>
+          <input type="text" class="form-input" id="note-tags" placeholder="e.g. product, sales, process" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Linked Company</label>
+          <select class="form-select" id="note-company"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+          <input type="checkbox" id="note-pinned" style="width:14px;height:14px" />
+          Pin this note to the top
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-kb-note')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveKBNote()">Save Note</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PHASE 19 MODAL: WEBHOOK ════ -->
+<div class="modal-overlay" id="modal-webhook">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <span class="modal-title" id="webhook-modal-title">Add Webhook</span>
+      <button class="modal-close" onclick="closeModal('modal-webhook')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:14px">
+      <input type="hidden" id="webhook-edit-id" />
+      <div class="form-group">
+        <label class="form-label">Endpoint URL *</label>
+        <input type="url" class="form-input" id="webhook-url" placeholder="https://hooks.example.com/crm" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Trigger Events</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+            <input type="checkbox" class="webhook-event-cb" value="deal.created" style="width:14px;height:14px" /> Deal Created
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+            <input type="checkbox" class="webhook-event-cb" value="deal.won" style="width:14px;height:14px" /> Deal Won
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+            <input type="checkbox" class="webhook-event-cb" value="contact.created" style="width:14px;height:14px" /> Contact Created
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+            <input type="checkbox" class="webhook-event-cb" value="task.overdue" style="width:14px;height:14px" /> Task Overdue
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+            <input type="checkbox" class="webhook-event-cb" value="invoice.overdue" style="width:14px;height:14px" /> Invoice Overdue
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer">
+          <input type="checkbox" id="webhook-active" checked style="width:14px;height:14px" /> Active
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-webhook')">Cancel</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span id="webhook-test-result" style="font-size:11px;color:var(--text-muted)"></span>
+        <button class="btn btn-secondary" id="webhook-test-btn" onclick="testWebhook()" style="display:none">Test</button>
+        <button class="btn btn-primary" onclick="saveWebhook()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PHASE 19 MODAL: CUSTOM FIELD DEF ════ -->
+<div class="modal-overlay" id="modal-custom-field-def">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <span class="modal-title" id="cfd-modal-title">Add Custom Field</span>
+      <button class="modal-close" onclick="closeModal('modal-custom-field-def')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+      <input type="hidden" id="cfd-edit-id" />
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Field Name *</label>
+          <input type="text" class="form-input" id="cfd-name" placeholder="e.g. Linkedin URL" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Entity Type</label>
+          <select class="form-select" id="cfd-entity-type">
+            <option value="contact">Contact</option>
+            <option value="company">Company</option>
+            <option value="deal">Deal</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Field Type</label>
+          <select class="form-select" id="cfd-type" onchange="toggleDropdownOptions()">
+            <option value="text">Text</option>
+            <option value="number">Number</option>
+            <option value="date">Date</option>
+            <option value="dropdown">Dropdown</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-top:22px">
+            <input type="checkbox" id="cfd-required" style="width:14px;height:14px" /> Required
+          </label>
+        </div>
+      </div>
+      <div class="form-group" id="cfd-options-wrap" style="display:none">
+        <label class="form-label">Dropdown Options (one per line)</label>
+        <textarea class="form-textarea" id="cfd-options" rows="4" placeholder="Option 1&#10;Option 2&#10;Option 3"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-custom-field-def')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCustomFieldDef()">Save Field</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: SAVE SEARCH (Phase 17) ════ -->
+<div class="modal-overlay" id="modal-save-search">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-header">
+      <span class="modal-title">Save Filter as Quick Access</span>
+      <button class="modal-close" onclick="closeModal('modal-save-search')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="save-search-entity" />
+      <div class="form-group">
+        <label class="form-label">Search Name *</label>
+        <input type="text" class="form-input" id="save-search-name" placeholder="e.g. Hot Leads, Enterprise Deals..." />
+      </div>
+      <div style="font-size:12px;color:var(--text-muted)" id="save-search-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-save-search')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmSaveSearch()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Install Tracker Modal -->
+<div class="modal-overlay" id="modal-install">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-install-title">Add Install</span>
+      <button class="modal-close" onclick="closeModal('modal-install')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="install-form-id" />
+      <input type="hidden" id="install-form-contact-id" />
+      <input type="hidden" id="install-form-company-id" />
+      <div class="form-grid form-grid-2">
+        <div class="form-group span-2">
+          <label class="form-label">Product / Service *</label>
+          <select class="form-select" id="install-form-product"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Install Date</label>
+          <input type="date" class="form-input" id="install-form-install-date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Serial Number</label>
+          <input type="text" class="form-input" id="install-form-serial" placeholder="SN-00001" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Warranty Expiry</label>
+          <input type="date" class="form-input" id="install-form-warranty" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Service Interval (days)</label>
+          <input type="number" class="form-input" id="install-form-interval" placeholder="90" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Service Date</label>
+          <input type="date" class="form-input" id="install-form-last-service" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Next Service Due</label>
+          <input type="date" class="form-input" id="install-form-next-service" />
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="install-form-notes" placeholder="Installation notes, configuration details..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="btn-delete-install" style="display:none" onclick="deleteInstall()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-install')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveInstall()">Save Install</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ VIEW: PAYMENT PAGE ════ -->
+<div id="view-payment" class="view" style="display:none">
+  <div id="view-payment-content" style="max-width:560px;margin:40px auto;padding:0 16px"></div>
+</div>
+
+</body>
+</html>
