@@ -1,0 +1,13 @@
+{
+  "name": "boredroom-crm",
+  "version": "26.0.0",
+  "description": "BoredRoom CRM - Full Stack HubSpot Clone",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "install": "cd server && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
