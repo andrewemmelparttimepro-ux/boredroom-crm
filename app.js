@@ -6,7 +6,7 @@ const API_BASE = '/api';
 const STORE_KEY = 'boredroomCRM_v1'; // kept for migration reference
 
 // ── Auth Layer ──────────────────────────────────────────────────────────────
-let _authToken = sessionStorage.getItem('crm_token') || null;
+let _authToken = localStorage.getItem('crm_token') || null;
 let _currentUser = null;
 
 function getToken() { return _authToken; }
@@ -14,8 +14,8 @@ function getToken() { return _authToken; }
 function setToken(token, user) {
   _authToken = token;
   _currentUser = user;
-  if (token) sessionStorage.setItem('crm_token', token);
-  else sessionStorage.removeItem('crm_token');
+  if (token) localStorage.setItem('crm_token', token);
+  else localStorage.removeItem('crm_token');
 }
 
 async function apiRequest(method, path, body) {
@@ -22533,3 +22533,58 @@ window.p26SubmitLoginTOTP     = p26SubmitLoginTOTP;
 window.p26SelectDay           = p26SelectDay;
 
 // END PHASE 26
+
+// ════════════════════════════════════════════════════════════
+// DEFENSIVE INIT GUARD — ensures the dashboard always loads
+// if the user has a valid token but init() failed silently
+// ════════════════════════════════════════════════════════════
+(function defInitGuard() {
+  function ensureDbDefaults() {
+    db.contacts          = db.contacts          || [];
+    db.companies         = db.companies         || [];
+    db.deals             = db.deals             || [];
+    db.activities        = db.activities        || [];
+    db.tasks             = db.tasks             || [];
+    db.invoices          = db.invoices          || [];
+    db.products          = db.products          || [];
+    db.sequences         = db.sequences         || [];
+    db.proposals         = db.proposals         || [];
+    db.smartLists        = db.smartLists        || [];
+    db.documents         = db.documents         || [];
+    db.competitorEntries = db.competitorEntries || [];
+    db.campaigns         = db.campaigns         || [];
+    db.subscriptions     = db.subscriptions     || [];
+    db.meetings          = db.meetings          || [];
+    db.settings          = db.settings          || {};
+    db.settings.pipelineStages  = db.settings.pipelineStages  || null;
+    db.settings.emailTemplates  = db.settings.emailTemplates  || [];
+    db.settings.playbooks       = db.settings.playbooks       || [];
+    db.settings.invoiceSettings = db.settings.invoiceSettings || { nextNumber: 1001, prefix: 'INV-' };
+    db.settings.profile         = db.settings.profile         || {};
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Give init() 3 seconds to complete. If no view is active, retry.
+    setTimeout(function retryNav() {
+      const hasActiveView = !!document.querySelector('.view.active');
+      const hasLoginOverlay = !!document.getElementById('login-overlay');
+      const token = localStorage.getItem('crm_token');
+      if (!hasActiveView && !hasLoginOverlay) {
+        if (token) {
+          console.warn('[DefGuard] No active view after 3s — retrying startApp()');
+          ensureDbDefaults();
+          loadDBFromAPI()
+            .catch(function() { ensureDbDefaults(); })
+            .then(function() {
+              ensureDbDefaults();
+              addLogoutButton();
+              navigate('dashboard');
+            });
+        } else {
+          console.warn('[DefGuard] No active view and no token — showing login');
+          showLoginScreen();
+        }
+      }
+    }, 3000);
+  });
+})();
