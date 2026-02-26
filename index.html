@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="BR CRM" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -3457,9 +3457,6 @@
     <button class="hn-close" onclick="hnToggle()">✕</button>
   </div>
   <div class="hn-messages" id="hn-messages">
-    <div class="hn-msg bot">
-      <div class="hn-bubble">Hey Andrew. I'm connected to your Hubnot data. Ask me about your pipeline, contacts, deals, or anything else.</div>
-    </div>
   </div>
   <div class="hn-input-row">
     <textarea class="hn-input" id="hn-input" placeholder="Ask O'Brien anything…" rows="1" onkeydown="hnKey(event)" oninput="hnResize(this)"></textarea>
@@ -3471,9 +3468,28 @@
 
 <script>
 // ── Hubnot Chat ──────────────────────────────────────────────────────────────
+const HN_STORAGE_KEY = 'hubnot_chat_history_v1';
 let hnOpen = false;
 let hnHistory = [];
 let hnBusy = false;
+
+function hnSaveHistory() {
+  try { localStorage.setItem(HN_STORAGE_KEY, JSON.stringify(hnHistory)); } catch(e) {}
+}
+
+function hnLoadHistory() {
+  try {
+    const raw = localStorage.getItem(HN_STORAGE_KEY);
+    if (!raw) return;
+    const hist = JSON.parse(raw);
+    if (!Array.isArray(hist)) return;
+    hnHistory = hist;
+    hist.forEach(m => hnAddMsg(m.role === 'user' ? 'user' : 'bot', m.content));
+  } catch(e) {}
+}
+
+// Load persisted history on startup
+document.addEventListener('DOMContentLoaded', hnLoadHistory);
 
 function hnToggle() {
   hnOpen = !hnOpen;
@@ -3529,6 +3545,7 @@ async function hnSend() {
 
   hnAddMsg('user', msg);
   hnHistory.push({ role: 'user', content: msg });
+  hnSaveHistory();
 
   hnShowTyping();
 
@@ -3551,6 +3568,7 @@ async function hnSend() {
     const reply = data.reply || '(no response)';
     hnAddMsg('bot', reply);
     hnHistory.push({ role: 'assistant', content: reply });
+    hnSaveHistory();
 
   } catch (err) {
     hnHideTyping();
