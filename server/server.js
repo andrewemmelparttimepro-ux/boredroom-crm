@@ -6977,6 +6977,70 @@ app.get('/api/contacts/:id/email-context', requireAuth, (req, res) => {
   });
 });
 
+// ── Hubnot Chat ─────────────────────────────────────────────────────────────
+app.post('/api/chat', requireAuth, async (req, res) => {
+  try {
+    const { message, history = [] } = req.body;
+    if (!message) return res.status(400).json({ error: 'message required' });
+
+    // Pull live CRM context from DB
+    const dealRows  = db.prepare(`SELECT stage, value, probability FROM deals WHERE deleted_at IS NULL`).all();
+    const pipeline  = dealRows.reduce((s, d) => s + (d.value || 0), 0);
+    const weighted  = dealRows.reduce((s, d) => s + ((d.value || 0) * ((d.probability || 0) / 100)), 0);
+    const byStage   = dealRows.reduce((acc, d) => { acc[d.stage] = (acc[d.stage] || 0) + 1; return acc; }, {});
+    const contacts  = db.prepare(`SELECT COUNT(*) as n FROM contacts WHERE deleted_at IS NULL`).get();
+    const companies = db.prepare(`SELECT COUNT(*) as n FROM companies WHERE deleted_at IS NULL`).get();
+    const tasks     = db.prepare(`SELECT COUNT(*) as n FROM tasks WHERE done=0`).get();
+    const recentAct = db.prepare(`SELECT type, note, contact_id FROM activities ORDER BY created_at DESC LIMIT 5`).all();
+
+    const crmContext = `
+You are O'Brien, Andrew Emmel's AI assistant, embedded in Hubnot (a custom CRM built for BoredRoom).
+Andrew is a 38-year-old entrepreneur in Minot, North Dakota. He runs Prairie Pumping (concrete), plays music, and is building ND.AI (AI consulting) and BoredRoom (a CRM/tech platform).
+Be sharp, direct, and useful. No corporate speak. You have real-time access to Hubnot data:
+
+LIVE CRM SNAPSHOT:
+- Total pipeline: $${pipeline.toLocaleString()}
+- Weighted forecast: $${Math.round(weighted).toLocaleString()}
+- Deals by stage: ${JSON.stringify(byStage)}
+- Contacts: ${contacts.n} | Companies: ${companies.n}
+- Open tasks: ${tasks.n}
+- Recent activity: ${recentAct.map(a => `${a.type}: ${(a.note||'').slice(0,60)}`).join(' | ')}
+`.trim();
+
+    // Build messages for OpenClaw
+    const messages = [
+      { role: 'system', content: crmContext },
+      ...history.slice(-8),
+      { role: 'user', content: message }
+    ];
+
+    // Call OpenClaw gateway
+    const ocRes = await fetch('http://localhost:18789/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 2086b1b6db2ef39dce29f7d55fc608647e7851c78a74569a',
+        'x-openclaw-agent-id': 'main'
+      },
+      body: JSON.stringify({ model: 'openclaw', messages, max_tokens: 800 })
+    });
+
+    if (!ocRes.ok) {
+      const err = await ocRes.text();
+      console.error('[Hubnot chat] OpenClaw error:', err);
+      return res.status(502).json({ error: 'OpenClaw gateway error', detail: err });
+    }
+
+    const data = await ocRes.json();
+    const reply = data?.choices?.[0]?.message?.content || '(no response)';
+    res.json({ reply });
+
+  } catch (err) {
+    console.error('[Hubnot chat] Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Health ──────────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', version: '26.0.0', time: new Date().toISOString() });
