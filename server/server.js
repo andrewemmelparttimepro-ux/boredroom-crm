@@ -6984,13 +6984,13 @@ app.post('/api/chat', requireAuth, async (req, res) => {
     if (!message) return res.status(400).json({ error: 'message required' });
 
     // Pull live CRM context from DB
-    const dealRows  = db.prepare(`SELECT stage, value, probability FROM deals WHERE deleted_at IS NULL`).all();
+    const dealRows  = db.prepare(`SELECT stage, value, probability FROM deals`).all();
     const pipeline  = dealRows.reduce((s, d) => s + (d.value || 0), 0);
     const weighted  = dealRows.reduce((s, d) => s + ((d.value || 0) * ((d.probability || 0) / 100)), 0);
     const byStage   = dealRows.reduce((acc, d) => { acc[d.stage] = (acc[d.stage] || 0) + 1; return acc; }, {});
-    const contacts  = db.prepare(`SELECT COUNT(*) as n FROM contacts WHERE deleted_at IS NULL`).get();
-    const companies = db.prepare(`SELECT COUNT(*) as n FROM companies WHERE deleted_at IS NULL`).get();
-    const tasks     = db.prepare(`SELECT COUNT(*) as n FROM tasks WHERE done=0`).get();
+    const contacts  = db.prepare(`SELECT COUNT(*) as n FROM contacts`).get();
+    const companies = db.prepare(`SELECT COUNT(*) as n FROM companies`).get();
+    const tasks     = db.prepare(`SELECT COUNT(*) as n FROM tasks WHERE status != 'done'`).get();
     const recentAct = db.prepare(`SELECT type, note, contact_id FROM activities ORDER BY created_at DESC LIMIT 5`).all();
 
     const crmContext = `
