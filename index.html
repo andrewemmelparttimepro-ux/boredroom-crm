@@ -6,13 +6,13 @@
   <title>BoredRoom CRM</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#6366f1" />
+  <meta name="theme-color" content="#8FD129" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="BR CRM" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -21,142 +21,87 @@
   <!-- ── Sidebar ──────────────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="logo.png" class="logo-mark" alt="BoredRoom" />
-      <div>
-        <div class="logo-text">BoredRoom</div>
-        <div class="logo-sub">CRM v1</div>
-      </div>
-      <!-- Notification Bell (Phase 19 In-App Notifications) -->
-      <div class="notif-bell-wrap" id="notif-bell-wrap">
-        <button class="notif-bell-btn" id="notif-bell-btn" onclick="toggleNotifCenter()" title="Notifications">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <span class="notif-badge" id="notif-badge" style="display:none">0</span>
-        </button>
-      </div>
+      <div class="logo-brand-line">BOREDROOM CRM</div>
+      <div class="logo-version-line">v26.0.0 // LOCAL BUILD</div>
+      <div class="logo-mode-line">MODE: <span>[ WORKSPACE ]</span></div>
     </div>
 
     <nav class="sidebar-nav">
-      <div class="nav-section-label">Workspace</div>
+      <!-- ── PRIMARY NAV (always visible) ── -->
       <div class="nav-item" data-view="today" id="nav-today-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-        Today
+        TODAY
         <span class="nav-badge" id="nav-today-badge" style="display:none">0</span>
       </div>
       <div class="nav-item" data-view="dashboard">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Dashboard
+        DASHBOARD
       </div>
       <div class="nav-item" data-view="contacts">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Contacts
-      </div>
-      <div class="nav-item" data-view="companies">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-        Companies
+        CONTACTS
       </div>
       <div class="nav-item" data-view="pipeline">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Pipeline
+        PIPELINE
       </div>
       <div class="nav-item" data-view="activities">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-        Activities
+        ACTIVITIES
       </div>
       <div class="nav-item" data-view="tasks">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        Tasks
+        TASKS
         <span class="nav-badge" id="nav-tasks-badge" style="display:none">0</span>
       </div>
       <div class="nav-item" data-view="reports">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Reports
+        REPORTS
       </div>
-      <div class="nav-item" data-view="smartlists">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="17" r="3"/><path d="m21 20-1.5-1.5"/></svg>
-        Smart Lists
+
+      <!-- ── MORE TOGGLE ── -->
+      <div class="nav-more-toggle" id="nav-more-toggle" onclick="toggleNavMore()">
+        [MORE ▾]
       </div>
-      <div class="nav-item" data-view="invoices">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
-        Invoices
-        <span class="nav-badge" id="nav-invoices-badge" style="display:none">0</span>
-      </div>
-      <div class="nav-item" data-view="catalog">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        Catalog
-      </div>
-      <div class="nav-item" data-view="campaigns">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2z"/></svg>
-        Campaigns
-      </div>
-      <div class="nav-item" data-view="calendar">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Calendar
-      </div>
-      <div class="nav-item" data-view="documents">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13,2 13,9 20,9"/></svg>
-        Documents
-      </div>
-      <div class="nav-item" data-view="renewals">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-        Renewals
-        <span class="nav-badge" id="nav-renewals-badge" style="display:none">0</span>
-      </div>
-      <div class="nav-item" data-view="notes">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
-        Notes
-      </div>
-      <div class="nav-item" data-view="time">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-        Time
-      </div>
-      <div class="nav-item" data-view="meetings">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Meetings
-      </div>
-      <div class="nav-item" data-view="data-health">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        Data Health
-      </div>
-      <div class="nav-item" data-view="assets">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        Assets
-        <span class="nav-badge" id="nav-assets-expiring-badge" style="display:none">0</span>
-      </div>
-      <div class="nav-item" data-view="inbox">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-        Inbox
-        <span class="nav-badge" id="nav-inbox-badge" style="display:none">0</span>
-      </div>
-      <div class="nav-item" data-view="sequences">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-        Sequences
-      </div>
-      <div class="nav-item" data-view="metrics">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-        Metrics
-      </div>
-      <div class="nav-item" data-view="support">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Support
-        <span class="nav-badge" id="nav-support-badge" style="display:none">0</span>
-      </div>
-      <div class="nav-item" data-view="customers" id="nav-customers-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Customers
+
+      <!-- ── COLLAPSED NAV (hidden by default) ── -->
+      <div class="nav-more-section" id="nav-more-section">
+        <div class="nav-item" data-view="companies">COMPANIES</div>
+        <div class="nav-item" data-view="invoices">
+          INVOICES
+          <span class="nav-badge" id="nav-invoices-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" data-view="smartlists">SMART LISTS</div>
+        <div class="nav-item" data-view="catalog">CATALOG</div>
+        <div class="nav-item" data-view="campaigns">CAMPAIGNS</div>
+        <div class="nav-item" data-view="calendar">CALENDAR</div>
+        <div class="nav-item" data-view="documents">DOCUMENTS</div>
+        <div class="nav-item" data-view="renewals">
+          RENEWALS
+          <span class="nav-badge" id="nav-renewals-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" data-view="notes">NOTES</div>
+        <div class="nav-item" data-view="time">TIME</div>
+        <div class="nav-item" data-view="meetings">MEETINGS</div>
+        <div class="nav-item" data-view="data-health">DATA HEALTH</div>
+        <div class="nav-item" data-view="assets">
+          ASSETS
+          <span class="nav-badge" id="nav-assets-expiring-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" data-view="inbox">
+          INBOX
+          <span class="nav-badge" id="nav-inbox-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" data-view="sequences">SEQUENCES</div>
+        <div class="nav-item" data-view="metrics">METRICS</div>
+        <div class="nav-item" data-view="support">
+          SUPPORT
+          <span class="nav-badge" id="nav-support-badge" style="display:none">0</span>
+        </div>
+        <div class="nav-item" data-view="customers" id="nav-customers-item">CUSTOMERS</div>
+        <div class="nav-item" data-view="settings">SETTINGS</div>
       </div>
     </nav>
 
     <div class="sidebar-footer">
-      <button class="btn btn-secondary btn-sm" style="width:100%;margin-bottom:8px;justify-content:center" onclick="p24OpenComposeEmail()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="13" height="13"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Compose Email
-      </button>
-      <div class="nav-item" data-view="settings" style="margin:-4px -8px 8px;border-radius:6px">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-        Settings
+      <div class="sidebar-sys-status">
+        <div>[SYS: ONLINE] [DB: CONNECTED]</div>
+        <div>[v26.0.0] // BOREDROOM CRM</div>
+        <div id="sidebar-user-name" style="display:none">Andrew Walker</div>
       </div>
-      <div style="margin-bottom:6px;font-weight:500;color:var(--text-dim)" id="sidebar-user-name">Andrew Walker</div>
-      <div>BoredRoom Platform &middot; Local</div>
     </div>
   </aside>
 
@@ -3580,6 +3525,46 @@ async function hnSend() {
   document.getElementById('hn-send').disabled = false;
   input.focus();
 }
+</script>
+
+<script>
+/* ── NAV MORE TOGGLE ─────────────────────────────────────
+   Hacker CEO sidebar: [MORE ▾] / [MORE ▲] toggle
+   ──────────────────────────────────────────────────────── */
+function toggleNavMore() {
+  var section = document.getElementById('nav-more-section');
+  var toggle  = document.getElementById('nav-more-toggle');
+  if (!section || !toggle) return;
+  var isOpen = section.classList.toggle('open');
+  toggle.textContent = isOpen ? '[MORE ▲]' : '[MORE ▾]';
+}
+
+/* Auto-open MORE section if active view is a hidden nav item */
+(function() {
+  var moreViews = ['companies','invoices','smartlists','catalog','campaigns',
+    'calendar','documents','renewals','notes','time','meetings','data-health',
+    'assets','inbox','sequences','metrics','support','customers','settings'];
+  var section = document.getElementById('nav-more-section');
+  var toggle  = document.getElementById('nav-more-toggle');
+  function checkAndOpen() {
+    var activeItem = document.querySelector('.sidebar-nav .nav-item.active');
+    if (!activeItem || !section || !toggle) return;
+    var view = activeItem.getAttribute('data-view');
+    if (moreViews.indexOf(view) !== -1) {
+      section.classList.add('open');
+      toggle.textContent = '[MORE ▲]';
+    }
+  }
+  /* Run after app.js initializes the active state */
+  setTimeout(checkAndOpen, 300);
+  /* Also hook into nav clicks for future navigation */
+  if (section) {
+    section.addEventListener('click', function(e) {
+      var item = e.target.closest('.nav-item');
+      if (item) { setTimeout(checkAndOpen, 100); }
+    });
+  }
+})();
 </script>
 
 </body>
