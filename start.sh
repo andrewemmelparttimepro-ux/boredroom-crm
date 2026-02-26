@@ -51,22 +51,13 @@ for i in $(seq 1 15); do
   sleep 0.5
 done
 
-# ── Start Frontend (port 8769) ─────────────────────────────────────────────
-echo ""
-echo "🌐 Starting frontend on port 8769..."
-cd "$CRM_DIR"
-python3 -m http.server 8769 >> /tmp/crm-frontend.log 2>&1 &
-FRONTEND_PID=$!
-echo $FRONTEND_PID >> "$PID_FILE"
-echo "   PID: $FRONTEND_PID"
-sleep 1
-echo "   ✅ Frontend ready → http://localhost:8769"
+echo "   ✅ Frontend served from API → http://localhost:3001"
 
-# ── Start Cloudflare Tunnel on frontend port ───────────────────────────────
+# ── Start Cloudflare Tunnel on API port ────────────────────────────────────
 echo ""
-echo "☁️  Starting Cloudflare tunnel on port 8769..."
+echo "☁️  Starting Cloudflare tunnel on port 3001..."
 rm -f "$TUNNEL_LOG"
-cloudflared tunnel --url http://localhost:8769 >> "$TUNNEL_LOG" 2>&1 &
+cloudflared tunnel --url http://localhost:3001 >> "$TUNNEL_LOG" 2>&1 &
 TUNNEL_PID=$!
 echo $TUNNEL_PID >> "$PID_FILE"
 
@@ -75,6 +66,7 @@ echo "   Waiting for tunnel URL..."
 TUNNEL_URL=""
 for i in $(seq 1 40); do
   TUNNEL_URL=$(grep -oE 'https://[a-z0-9-]+\.trycloudflare\.com' "$TUNNEL_LOG" 2>/dev/null | head -1)
+
   if [ -n "$TUNNEL_URL" ]; then
     break
   fi
