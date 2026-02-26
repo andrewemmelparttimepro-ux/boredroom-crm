@@ -1,7 +1,7 @@
 /* BoredRoom CRM — Service Worker */
-const CACHE = 'boredroomCRM-v17';
+const CACHE = 'boredroomCRM-v27';
 const ASSETS = ['/', '/index.html', '/app.js', '/style.css',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'];
+  'https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
